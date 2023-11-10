@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,12 +45,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
         holder.authorName.setText(bookAuthor);
         holder.pdfCover.setImageResource(Integer.parseInt(bookCover));
-                holder.pdfCover.setOnClickListener(new View.OnClickListener() {
+         holder.pdfCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context,bookTitle, Toast.LENGTH_SHORT).show();
             }
         });
+
+         SetAnim(holder.itemView,position);
 
     }
 
@@ -66,5 +70,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             authorName = view.findViewById(R.id.authorName);
             pdfCover = view.findViewById(R.id.cover);
         }
+    }
+
+
+    private void SetAnim(View view,int position){
+        Animation anim = AnimationUtils.loadAnimation(context,R.anim.right_to_left);
+        view.startAnimation(anim);
     }
 }
