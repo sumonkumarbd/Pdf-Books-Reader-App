@@ -7,45 +7,99 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:scrollbars="none"
-        >
+        android:scrollbars="none">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_height="@dimen/_100dp"
                 >
 
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/dashboad_temp"
+                    android:scaleType="centerCrop"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trending Books"
+                android:textSize="@dimen/_15sp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/white"
+                android:background="@drawable/titlecard_for_redius"
+                android:paddingRight="@dimen/_100dp"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingVertical="@dimen/_5dp"
+                android:layout_marginVertical="@dimen/_5dp"
+                />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scrollbars="none"
-                    android:layout_marginBottom="15dp"
-                    android:padding="10dp" />
+                    android:layout_height="@dimen/_220dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="@dimen/_1dp"
+                    android:scrollbars="none" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Books"
+                android:textSize="@dimen/_15sp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/white"
+                android:background="@drawable/titlecard_for_redius"
+                android:paddingRight="@dimen/_100dp"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingVertical="@dimen/_5dp"
+                android:layout_marginVertical="@dimen/_5dp"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView2"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="@dimen/_160dp"
                 android:layout_marginBottom="15dp"
-                android:scrollbars="none"
-                android:padding="10dp" />
+                android:padding="@dimen/_10dp"
+                android:scrollbars="none" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bangladeshi Books"
+                android:textSize="@dimen/_15sp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/white"
+                android:background="@drawable/titlecard_for_redius"
+                android:paddingRight="@dimen/_100dp"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingVertical="@dimen/_5dp"
+                android:layout_marginVertical="@dimen/_5dp"
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:padding="10dp"
-                android:clipToPadding="false"
-                />
-            </LinearLayout>
+                android:layout_height="@dimen/_220dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="@dimen/_1dp"
+                android:scrollbars="none" />
+        </LinearLayout>
 
 
     </ScrollView>

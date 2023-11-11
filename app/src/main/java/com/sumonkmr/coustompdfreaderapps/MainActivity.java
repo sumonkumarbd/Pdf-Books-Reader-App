@@ -1,7 +1,6 @@
 package com.sumonkmr.coustompdfreaderapps;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -11,16 +10,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
     Context context;
     HashMap<String, String> pdfTemp;
     List<HashMap<String, String>> pdfList;
-    private RecyclerView recyclerView, recyclerView2, recyclerView3;
-    private RecyclerView.Adapter adapter, adapter2, adapter3;
+    private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1;
+    private RecyclerView.Adapter trending_sec_adapter, new_sec_adapter, cat1_sec_adapter;
     private RecyclerView.LayoutManager layoutManager, layoutManager2, layoutManager3;
     Handler handler;
     Runnable autoScrollRunnable;
@@ -64,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void HookUps() {
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView2 = findViewById(R.id.recyclerView2);
-        recyclerView3 = findViewById(R.id.recyclerView3);
+        recyclerViewForTrendingSec = findViewById(R.id.recyclerView);
+        recyclerViewForNewSec = findViewById(R.id.recyclerView2);
+        recyclerViewForCat1 = findViewById(R.id.recyclerView3);
     }
 
     public void AllPDFs() {
@@ -88,41 +77,43 @@ public class MainActivity extends AppCompatActivity {
     private void RecyclerDefiner() {
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        recyclerView.setHasFixedSize(true);
-        recyclerView2.setHasFixedSize(true);
-        recyclerView3.setHasFixedSize(true);
+        recyclerViewForTrendingSec.setHasFixedSize(true);
+        recyclerViewForNewSec.setHasFixedSize(true);
+        recyclerViewForCat1.setHasFixedSize(true);
 
         // specify the view adapter
-        adapter = new MyAdapter(this, pdfList);
-        adapter2 = new MyAdapter(this, pdfList);
-        adapter3 = new MyAdapter(this, pdfList);
-        recyclerView.setAdapter(adapter);
-        recyclerView2.setAdapter(adapter2);
-        recyclerView3.setAdapter(adapter3);
+        trending_sec_adapter = new MainLayAdapter(this, pdfList);
+        new_sec_adapter = new SecoundLayAdapter(this, pdfList);
+        cat1_sec_adapter = new MainLayAdapter(this, pdfList);
+        recyclerViewForTrendingSec.setAdapter(trending_sec_adapter);
+        recyclerViewForNewSec.setAdapter(new_sec_adapter);
+        recyclerViewForCat1.setAdapter(cat1_sec_adapter);
 
-        RecyclerCustomize(recyclerView, adapter);
-        RecyclerCustomize(recyclerView2, adapter2);
-        RecyclerCustomize(recyclerView3, adapter3);
+        RecyclerCustomize(recyclerViewForTrendingSec, trending_sec_adapter);
+        RecyclerCustomize(recyclerViewForNewSec, new_sec_adapter);
+        RecyclerCustomize(recyclerViewForCat1, cat1_sec_adapter);
 
         // specify the view layout manager
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         layoutManager3 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView2.setLayoutManager(layoutManager2);
-        recyclerView3.setLayoutManager(layoutManager3);
+        recyclerViewForTrendingSec.setLayoutManager(layoutManager);
+        recyclerViewForNewSec.setLayoutManager(layoutManager2);
+        recyclerViewForCat1.setLayoutManager(layoutManager3);
 
         PagerSnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
+        snapHelper.attachToRecyclerView(recyclerViewForTrendingSec);
 
 
         // Start automatic sliding
-            autoScroll();
+            autoScroll(recyclerViewForTrendingSec, trending_sec_adapter);
+            autoScroll(recyclerViewForNewSec, new_sec_adapter);
+            autoScroll(recyclerViewForCat1, cat1_sec_adapter);
 
 
         }//RecyclerDefiner()
 
-        private void autoScroll () {
+        private void autoScroll (RecyclerView recyclerView, RecyclerView.Adapter adapter) {
             final Handler handler = new Handler();
             final Runnable runnable = new Runnable() {
                 @Override
@@ -133,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         currentPosition++;
                     }
                     recyclerView.smoothScrollToPosition(currentPosition);
-                    handler.postDelayed(this, 1000); // Adjust the delay as needed
+                    handler.postDelayed(this, 2000); // Adjust the delay as needed
                     Log.d("currentPosition", "getItemCount: "+adapter.getItemCount()+ " currentPosition: "+ currentPosition);
                 }
             };
