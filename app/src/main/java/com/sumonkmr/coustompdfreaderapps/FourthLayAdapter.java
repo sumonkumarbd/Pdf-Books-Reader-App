@@ -1,3 +1,4 @@
+
 package com.sumonkmr.coustompdfreaderapps;
 
 import android.content.Context;
@@ -15,13 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHolder> {
+public class FourthLayAdapter extends RecyclerView.Adapter<FourthLayAdapter.ViewHolder> {
 
     Context context;
-    HashMap<String,String> pdfTemp;
-    List<HashMap<String,String>> pdfList;
+    HashMap<String, String> pdfTemp;
+    List<HashMap<String, String>> pdfList;
 
-    public MainLayAdapter(Context c, List<HashMap<String, String>> pdfList) {
+    public FourthLayAdapter(Context c, List<HashMap<String, String>> pdfList) {
         this.context = c;
         this.pdfList = pdfList;
     }
@@ -29,7 +30,7 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.large_pdf_card, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.pdf_card, parent, false);
         return new ViewHolder(view);
 
     }
@@ -38,7 +39,7 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         pdfTemp = pdfList.get(position);
-        String bookTitle,bookAuthor,bookCover;
+        String bookTitle, bookAuthor, bookCover;
         bookTitle = pdfTemp.get("title");
         bookAuthor = pdfTemp.get("author");
         bookCover = pdfTemp.get("cover");
@@ -46,24 +47,24 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
         holder.titleName.setText(bookTitle);
         holder.authorName.setText(bookAuthor);
         holder.pdfCover.setImageResource(Integer.parseInt(bookCover));
-         holder.pdfCover.setOnClickListener(new View.OnClickListener() {
+        holder.pdfCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,bookTitle, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, bookTitle, Toast.LENGTH_SHORT).show();
             }
         });
 
-         SetAnim(holder.itemView,position);
+        SetAnim(holder.itemView, position);
 
     }
 
     @Override
     public int getItemCount() {
-       return pdfList.size();
+        return pdfList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleName ,authorName;
+        public TextView titleName, authorName;
         public ImageView pdfCover;
 
         public ViewHolder(View view) {
@@ -75,8 +76,10 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
     }
 
 
-    private void SetAnim(View view,int position){
-        Animation anim = AnimationUtils.loadAnimation(context,R.anim.right_to_left);
+    private void SetAnim(View view, int position) {
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
         view.startAnimation(anim);
     }
 }
+
+

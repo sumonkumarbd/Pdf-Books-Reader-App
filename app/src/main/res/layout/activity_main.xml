@@ -8,7 +8,31 @@
     tools:context=".MainActivity">
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100dp"
+        android:layout_marginBottom="@dimen/_10dp"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/dashboad_temp"
+            android:scaleType="centerCrop"
+            />
+
+        <ImageView
+            android:id="@+id/canvasBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_10dp"
+            android:background="@color/yellow"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
+
     <ScrollView
+        android:id="@+id/parentScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -19,20 +43,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_100dp"
-                >
-
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/dashboad_temp"
-                    android:scaleType="centerCrop"
-                    />
-
-            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,7 +83,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView2"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_160dp"
+                android:layout_height="@dimen/_155dp"
                 android:layout_marginBottom="15dp"
                 android:padding="@dimen/_10dp"
                 android:scrollbars="none" />
@@ -95,10 +105,41 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView3"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_220dp"
+                android:layout_height="@dimen/_155dp"
                 android:layout_gravity="center"
                 android:layout_marginVertical="@dimen/_1dp"
+                android:layout_marginBottom="15dp"
                 android:scrollbars="none" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="International Books"
+                android:textSize="@dimen/_15sp"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/white"
+                android:background="@drawable/titlecard_for_redius"
+                android:paddingRight="@dimen/_100dp"
+                android:paddingLeft="@dimen/_10dp"
+                android:paddingVertical="@dimen/_5dp"
+                android:layout_marginVertical="@dimen/_5dp"
+                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView4"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_155dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="@dimen/_1dp"
+                android:layout_marginBottom="15dp"
+                android:scrollbars="none" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2dp"
+                android:background="@color/red"
+                android:layout_marginBottom="@dimen/_10dp"
+                />
         </LinearLayout>
 
 

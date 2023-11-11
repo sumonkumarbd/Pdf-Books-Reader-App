@@ -75,7 +75,7 @@ public class SecoundLayAdapter extends RecyclerView.Adapter<SecoundLayAdapter.Vi
 
 
     private void SetAnim(View view,int position){
-        Animation anim = AnimationUtils.loadAnimation(context,R.anim.right_to_left);
+        Animation anim = AnimationUtils.loadAnimation(context,R.anim.fade_in);
         view.startAnimation(anim);
     }
 }
