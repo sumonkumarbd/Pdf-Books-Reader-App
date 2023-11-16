@@ -2,6 +2,7 @@ package com.sumonkmr.coustompdfreaderapps;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -180,16 +181,22 @@ public class MainActivity extends AppCompatActivity {
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (oldScrollY >= 150 && oldScrollY <= 250){
                     canvasBar.setImageDrawable(getDrawable(R.color.red));
-                }else if (oldScrollY >= 250 && oldScrollY <= 350){
+                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.red));
+                }else if (oldScrollY >= 250 && oldScrollY <= 400){
                     canvasBar.setImageDrawable(getDrawable(R.color.deep_blue));
-                }else if (oldScrollY >= 350 && oldScrollY <= 450){
-                    canvasBar.setImageDrawable(getDrawable(R.color.stela));
-                }else if (oldScrollY >= 450 && oldScrollY <= 550){
+                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.deep_blue));
+                }else if (oldScrollY >= 400 && oldScrollY <= 550){
+                    canvasBar.setImageDrawable(getDrawable(R.color.black));
+                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.black));
+                }else if (oldScrollY >= 550 && oldScrollY <= 700){
                     canvasBar.setImageDrawable(getDrawable(R.color.yellow));
-                }else if (oldScrollY >= 550 && oldScrollY <= 650){
-                    canvasBar.setImageDrawable(getDrawable(R.color.stela));
+                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.yellow));
+                }else if (oldScrollY >= 700 && oldScrollY <= 850){
+                    canvasBar.setImageDrawable(getDrawable(R.color.light_blue));
+                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.light_blue));
                 }else {
                     canvasBar.setImageDrawable(getDrawable(R.color.shadow));
+                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.shadow));
                 }
                 Log.d("ForScrolling", "onScrollChange: "+scrollX+ " "+scrollX+ " "+ oldScrollX+" "+oldScrollY);
             }
