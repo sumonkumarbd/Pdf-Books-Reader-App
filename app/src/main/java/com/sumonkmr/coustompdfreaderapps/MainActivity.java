@@ -176,30 +176,27 @@ public class MainActivity extends AppCompatActivity {
     private void ScrollViewCustomize(){
         parentScrollView.isSmoothScrollingEnabled();
         parentScrollView.computeScroll();
-        parentScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (oldScrollY >= 150 && oldScrollY <= 250){
-                    canvasBar.setImageDrawable(getDrawable(R.color.red));
-                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.red));
-                }else if (oldScrollY >= 250 && oldScrollY <= 400){
-                    canvasBar.setImageDrawable(getDrawable(R.color.deep_blue));
-                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.deep_blue));
-                }else if (oldScrollY >= 400 && oldScrollY <= 550){
-                    canvasBar.setImageDrawable(getDrawable(R.color.black));
-                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.black));
-                }else if (oldScrollY >= 550 && oldScrollY <= 700){
-                    canvasBar.setImageDrawable(getDrawable(R.color.yellow));
-                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.yellow));
-                }else if (oldScrollY >= 700 && oldScrollY <= 850){
-                    canvasBar.setImageDrawable(getDrawable(R.color.light_blue));
-                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.light_blue));
-                }else {
-                    canvasBar.setImageDrawable(getDrawable(R.color.shadow));
-                    getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.shadow));
-                }
-                Log.d("ForScrolling", "onScrollChange: "+scrollX+ " "+scrollX+ " "+ oldScrollX+" "+oldScrollY);
+        parentScrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (oldScrollY >= 150 && oldScrollY <= 250){
+                canvasBar.setImageDrawable(getDrawable(R.color.red));
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.red));
+            }else if (oldScrollY >= 250 && oldScrollY <= 400){
+                canvasBar.setImageDrawable(getDrawable(R.color.deep_blue));
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.deep_blue));
+            }else if (oldScrollY >= 400 && oldScrollY <= 550){
+                canvasBar.setImageDrawable(getDrawable(R.color.black));
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.black));
+            }else if (oldScrollY >= 550 && oldScrollY <= 700){
+                canvasBar.setImageDrawable(getDrawable(R.color.yellow));
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.yellow));
+            }else if (oldScrollY >= 700 && oldScrollY <= 850){
+                canvasBar.setImageDrawable(getDrawable(R.color.light_blue));
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.light_blue));
+            }else {
+                canvasBar.setImageDrawable(getDrawable(R.color.red));
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.red));
             }
+            Log.d("ForScrolling", "onScrollChange: "+scrollX+ " "+scrollX+ " "+ oldScrollX+" "+oldScrollY);
         });
     }
 
