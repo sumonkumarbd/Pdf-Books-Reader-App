@@ -1,6 +1,7 @@
 package com.sumonkmr.coustompdfreaderapps;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,14 +47,19 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
         holder.titleName.setText(bookTitle);
         holder.authorName.setText(bookAuthor);
         holder.pdfCover.setImageResource(Integer.parseInt(bookCover));
-         holder.pdfCover.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context,bookTitle, Toast.LENGTH_SHORT).show();
-            }
-        });
+         holder.pdfCover.setOnClickListener(v -> {
+             Toast.makeText(context,bookTitle, Toast.LENGTH_SHORT).show();
+         });
 
          SetAnim(holder.itemView,position);
+
+        if (bookTitle.length() <= 10){
+            holder.newTag.setVisibility(View.VISIBLE);
+            Log.d("bookTitle length", "bookTitle length: "+bookTitle.length());
+        }else {
+            Log.d("bookTitle length", "bookTitle length: "+bookTitle.length());
+        }
+
 
     }
 
@@ -64,13 +70,14 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleName ,authorName;
-        public ImageView pdfCover;
+        public ImageView pdfCover,newTag;
 
         public ViewHolder(View view) {
             super(view);
             titleName = view.findViewById(R.id.titleName);
             authorName = view.findViewById(R.id.authorName);
             pdfCover = view.findViewById(R.id.cover);
+            newTag = view.findViewById(R.id.newTag);
         }
     }
 
