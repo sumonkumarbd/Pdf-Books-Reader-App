@@ -53,12 +53,12 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
 
          SetAnim(holder.itemView,position);
 
-        if (bookTitle.length() <= 10){
-            holder.newTag.setVisibility(View.VISIBLE);
-            Log.d("bookTitle length", "bookTitle length: "+bookTitle.length());
-        }else {
-            Log.d("bookTitle length", "bookTitle length: "+bookTitle.length());
-        }
+//        if (bookTitle.length() <= 10){
+//            holder.newTag.setVisibility(View.VISIBLE);
+//            Log.d("bookTitle length", "bookTitle length: "+bookTitle.length());
+//        }else {
+//            Log.d("bookTitle length", "bookTitle length: "+bookTitle.length());
+//        }
 
 
     }
