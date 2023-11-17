@@ -3,16 +3,15 @@ package com.sumonkmr.coustompdfreaderapps;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
@@ -24,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
     HashMap<String, String> pdfTemp;
-    List<HashMap<String, String>> pdfList;
+    List<HashMap<String, String>> trendingPdfList,bangladeshiPdfList,interNationalPdfList;
     ImageView canvasBar;
     ScrollView parentScrollView;
     private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1,recyclerViewForCat2;
@@ -43,22 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
 //       ***Call Functions Here****
         HookUps();//For HookUps xml with java
-        TrendingPDFs();//All Pdf List
+        PDFs();//All Pdf List
         RecyclerDefiner();//Settings of RecyclerView
 
     }//onCreate Finished.
 
     //    (((Custom Functions)))
-    private HashMap<String, String> getPdf(String title, String author, String cover) {
-
-        pdfTemp = new HashMap<>();
-        pdfTemp.put("title", title);
-        pdfTemp.put("author", author);
-        pdfTemp.put("cover", cover);
-
-        return pdfTemp;
-    }
-
     private void HookUps() {
         parentScrollView = findViewById(R.id.parentScrollView);
         canvasBar = findViewById(R.id.canvasBar);
@@ -66,19 +55,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewForNewSec = findViewById(R.id.recyclerView2);
         recyclerViewForCat1 = findViewById(R.id.recyclerView3);
         recyclerViewForCat2 = findViewById(R.id.recyclerView4);
-    }
-
-    public void TrendingPDFs() {
-        pdfList = new ArrayList<>();
-        pdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
-        pdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
-        pdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
-        pdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
-        pdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
-        pdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
-        pdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
-        pdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
-
     }
 
     private void RecyclerCustomize(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
@@ -94,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewForCat2.setHasFixedSize(true);
 
         // specify the view adapter
-        trending_sec_adapter = new MainLayAdapter(this, pdfList);
-        new_sec_adapter = new SecoundLayAdapter(this, pdfList);
-        cat1_sec_adapter = new ThirdLayAdapter(this, pdfList);
-        cat2_sec_adapter = new FourthLayAdapter(this, pdfList);
+        trending_sec_adapter = new MainLayAdapter(this, trendingPdfList);
+        new_sec_adapter = new SecoundLayAdapter(this, trendingPdfList);
+        cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdfList);
+        cat2_sec_adapter = new FourthLayAdapter(this, trendingPdfList);
 
         recyclerViewForTrendingSec.setAdapter(trending_sec_adapter);
         recyclerViewForNewSec.setAdapter(new_sec_adapter);
@@ -198,6 +174,49 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.d("ForScrolling", "onScrollChange: "+scrollX+ " "+scrollX+ " "+ oldScrollX+" "+oldScrollY);
         });
+    }
+
+
+
+    private HashMap<String, String> getPdf(String title, String author, String cover) {
+
+        pdfTemp = new HashMap<>();
+        pdfTemp.put("title", title);
+        pdfTemp.put("author", author);
+        pdfTemp.put("cover", cover);
+
+        return pdfTemp;
+    }
+
+    public List setPdf(List pdfLibrary, String bookName, String authorName, int coverPage){
+        pdfLibrary.add(getPdf(bookName.replace("_"," ").toUpperCase(),authorName.replace("_"," ").toUpperCase(), String.valueOf(coverPage)));
+        return pdfLibrary;
+    }
+
+
+    public void PDFs() {
+        trendingPdfList = new ArrayList<>();
+        trendingPdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
+        trendingPdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
+        trendingPdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
+        trendingPdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
+        trendingPdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
+        trendingPdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
+        trendingPdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
+        trendingPdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
+
+
+        bangladeshiPdfList = new ArrayList<>();
+        setPdf(bangladeshiPdfList,"spoken_english_by_munzereen_shahid","munzereen_shahid",R.drawable.spoken_english_munzereen_shahid);
+        setPdf(bangladeshiPdfList,"sobar_jonne_vocabulary_by_munzereen_shahid","munzereen_shahid",R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
+        setPdf(bangladeshiPdfList,"smart_carier_by_sohan_haydar","sohan_haydar",R.drawable.smart_carier_by_sohan_haydar);
+        setPdf(bangladeshiPdfList,"ghore_bose_ay_korun_by_joyita_benarjee","joyita_benarjee",R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
+        setPdf(bangladeshiPdfList,"mobile_photography_by_sadman_sakib","sadman_sakib",R.drawable.mobile_photography_by_sadman_sakib);
+        setPdf(bangladeshiPdfList,"graphics_design_er_asol_fanda_by_asif_hossen","asif_hossen",R.drawable.graphics_design_er_asol_fanda_by_asif_hossen);
+        setPdf(bangladeshiPdfList,"কল্যাণী - জীবনানন্দ দাশ","জীবনানন্দ দাশ",R.drawable.kalyani_jibananda_das);
+        setPdf(bangladeshiPdfList,"এসেছ তুমি রচিত হতে - কোয়েল তালুকদার","কোয়েল তালুকদার",R.drawable.esecho_tumi_rachito_hote);
+
+
     }
 
 

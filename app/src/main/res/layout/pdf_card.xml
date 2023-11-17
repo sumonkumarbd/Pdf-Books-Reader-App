@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 <RelativeLayout
     android:layout_width="@dimen/_100dp"
@@ -36,10 +37,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:maxLines="1"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:text="titleName"
-            android:textSize="@dimen/_12sp"
+            android:textSize="@dimen/_8sp"
+            android:maxLength="20"
+            android:layout_marginHorizontal="@dimen/_5dp"
             android:textStyle="bold" />
 
         <TextView
@@ -47,11 +50,12 @@ xmlns:app="http://schemas.android.com/apk/res-auto">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:maxLines="1"
+            android:singleLine="true"
             android:text="authorName"
             android:textColor="@color/white"
             android:layout_marginBottom="@dimen/_5dp"
-            android:textSize="@dimen/_10sp" />
+            android:maxLength="20"
+            android:textSize="@dimen/_5sp" />
     </LinearLayout>
 
 </RelativeLayout>
