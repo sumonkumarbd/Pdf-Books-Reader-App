@@ -23,11 +23,11 @@ public class MainActivity extends AppCompatActivity {
 
     Context context;
     HashMap<String, String> pdfTemp;
-    List<HashMap<String, String>> trendingPdfList,bangladeshiPdfList,interNationalPdfList;
+    List<HashMap<String, String>> trendingPdfList, bangladeshiPdfList, interNationalPdfList;
     ImageView canvasBar;
     ScrollView parentScrollView;
-    private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1,recyclerViewForCat2;
-    private RecyclerView.Adapter trending_sec_adapter, new_sec_adapter, cat1_sec_adapter,cat2_sec_adapter;
+    private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1, recyclerViewForCat2;
+    private RecyclerView.Adapter trending_sec_adapter, new_sec_adapter, cat1_sec_adapter, cat2_sec_adapter;
     private RecyclerView.LayoutManager layoutManager, layoutManager2, layoutManager3, layoutManager4;
     Handler handler;
     Runnable autoScrollRunnable;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         trending_sec_adapter = new MainLayAdapter(this, trendingPdfList);
         new_sec_adapter = new SecoundLayAdapter(this, trendingPdfList);
         cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdfList);
-        cat2_sec_adapter = new FourthLayAdapter(this, trendingPdfList);
+        cat2_sec_adapter = new FourthLayAdapter(this, interNationalPdfList);
 
         recyclerViewForTrendingSec.setAdapter(trending_sec_adapter);
         recyclerViewForNewSec.setAdapter(new_sec_adapter);
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Start automatic sliding
-        RecViewAutoScroll(recyclerViewForTrendingSec, trending_sec_adapter,3000);
+        RecViewAutoScroll(recyclerViewForTrendingSec, trending_sec_adapter, 3000);
 //        autoScroll(recyclerViewForNewSec, new_sec_adapter,4000);
 //        autoScroll(recyclerViewForCat1, cat1_sec_adapter,5000);
 //        autoScroll(recyclerViewForCat2, cat2_sec_adapter,6000);
@@ -145,37 +145,35 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(runnable, duration); // Adjust the delay as needed
 
 
-
     }//autoScroll
 
 
-    private void ScrollViewCustomize(){
+    private void ScrollViewCustomize() {
         parentScrollView.isSmoothScrollingEnabled();
         parentScrollView.computeScroll();
         parentScrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (oldScrollY >= 150 && oldScrollY <= 250){
+            if (oldScrollY >= 150 && oldScrollY <= 250) {
                 canvasBar.setImageDrawable(getDrawable(R.color.red));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.red));
-            }else if (oldScrollY >= 250 && oldScrollY <= 400){
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.red));
+            } else if (oldScrollY >= 250 && oldScrollY <= 400) {
                 canvasBar.setImageDrawable(getDrawable(R.color.deep_blue));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.deep_blue));
-            }else if (oldScrollY >= 400 && oldScrollY <= 550){
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.deep_blue));
+            } else if (oldScrollY >= 400 && oldScrollY <= 550) {
                 canvasBar.setImageDrawable(getDrawable(R.color.black));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.black));
-            }else if (oldScrollY >= 550 && oldScrollY <= 700){
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.black));
+            } else if (oldScrollY >= 550 && oldScrollY <= 700) {
                 canvasBar.setImageDrawable(getDrawable(R.color.yellow));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.yellow));
-            }else if (oldScrollY >= 700 && oldScrollY <= 850){
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.yellow));
+            } else if (oldScrollY >= 700 && oldScrollY <= 850) {
                 canvasBar.setImageDrawable(getDrawable(R.color.light_blue));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.light_blue));
-            }else {
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.light_blue));
+            } else {
                 canvasBar.setImageDrawable(getDrawable(R.color.red));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this,R.color.red));
+                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.red));
             }
-            Log.d("ForScrolling", "onScrollChange: "+scrollX+ " "+scrollX+ " "+ oldScrollX+" "+oldScrollY);
+            Log.d("ForScrolling", "onScrollChange: " + scrollX + " " + scrollX + " " + oldScrollX + " " + oldScrollY);
         });
     }
-
 
 
     private HashMap<String, String> getPdf(String title, String author, String cover) {
@@ -188,13 +186,16 @@ public class MainActivity extends AppCompatActivity {
         return pdfTemp;
     }
 
-    public List setPdf(List pdfLibrary, String bookName, String authorName, int coverPage){
-        pdfLibrary.add(getPdf(bookName.replace("_"," ").toUpperCase(),authorName.replace("_"," ").toUpperCase(), String.valueOf(coverPage)));
+    public List setPdf(List pdfLibrary, String bookName, String authorName, int coverPage) {
+        pdfLibrary.add(getPdf(bookName.replace("_", " ").toUpperCase(), authorName.replace("_", " ").toUpperCase(), String.valueOf(coverPage)));
         return pdfLibrary;
     }
 
 
     public void PDFs() {
+//      ==========================================
+//      Trending Pdf List
+//      ==========================================
         trendingPdfList = new ArrayList<>();
         trendingPdfList.add(getPdf("কল্যাণী", "জীবনানন্দ দাশ", String.valueOf(R.drawable.kalyani_jibananda_das)));
         trendingPdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
@@ -206,20 +207,52 @@ public class MainActivity extends AppCompatActivity {
         trendingPdfList.add(getPdf("এসেছ তুমি রচিত হতে", "কোয়েল তালুকদার", String.valueOf(R.drawable.esecho_tumi_rachito_hote)));
 
 
-        bangladeshiPdfList = new ArrayList<>();
-        setPdf(bangladeshiPdfList,"spoken_english_by_munzereen_shahid","munzereen_shahid",R.drawable.spoken_english_munzereen_shahid);
-        setPdf(bangladeshiPdfList,"sobar_jonne_vocabulary_by_munzereen_shahid","munzereen_shahid",R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
-        setPdf(bangladeshiPdfList,"smart_carier_by_sohan_haydar","sohan_haydar",R.drawable.smart_carier_by_sohan_haydar);
-        setPdf(bangladeshiPdfList,"ghore_bose_ay_korun_by_joyita_benarjee","joyita_benarjee",R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
-        setPdf(bangladeshiPdfList,"mobile_photography_by_sadman_sakib","sadman_sakib",R.drawable.mobile_photography_by_sadman_sakib);
-        setPdf(bangladeshiPdfList,"graphics_design_er_asol_fanda_by_asif_hossen","asif_hossen",R.drawable.graphics_design_er_asol_fanda_by_asif_hossen);
-        setPdf(bangladeshiPdfList,"কল্যাণী - জীবনানন্দ দাশ","জীবনানন্দ দাশ",R.drawable.kalyani_jibananda_das);
-        setPdf(bangladeshiPdfList,"এসেছ তুমি রচিত হতে - কোয়েল তালুকদার","কোয়েল তালুকদার",R.drawable.esecho_tumi_rachito_hote);
+//      ==========================================
+//      New Pdf List
+//      ==========================================
 
+
+
+
+
+
+
+
+
+
+//      ==========================================
+//      Bangladeshi Pdf List
+//      ==========================================
+        bangladeshiPdfList = new ArrayList<>();
+        setPdf(bangladeshiPdfList, "spoken_english_by_munzereen_shahid", "munzereen_shahid", R.drawable.spoken_english_munzereen_shahid);
+        setPdf(bangladeshiPdfList, "sobar_jonne_vocabulary_by_munzereen_shahid", "munzereen_shahid", R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
+        setPdf(bangladeshiPdfList, "smart_carier_by_sohan_haydar", "sohan_haydar", R.drawable.smart_carier_by_sohan_haydar);
+        setPdf(bangladeshiPdfList, "ghore_bose_ay_korun_by_joyita_benarjee", "joyita_benarjee", R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
+        setPdf(bangladeshiPdfList, "mobile_photography_by_sadman_sakib", "sadman_sakib", R.drawable.mobile_photography_by_sadman_sakib);
+        setPdf(bangladeshiPdfList, "graphics_design_er_asol_fanda_by_asif_hossen", "asif_hossen", R.drawable.graphics_design_er_asol_fanda_by_asif_hossen);
+        setPdf(bangladeshiPdfList, "কল্যাণী - জীবনানন্দ দাশ", "জীবনানন্দ দাশ", R.drawable.kalyani_jibananda_das);
+        setPdf(bangladeshiPdfList, "এসেছ তুমি রচিত হতে - কোয়েল তালুকদার", "কোয়েল তালুকদার", R.drawable.esecho_tumi_rachito_hote);
+
+
+
+
+
+
+
+//      ==========================================
+//      Bangladeshi Pdf List
+//      ==========================================
+        interNationalPdfList = new ArrayList<>();
+        setPdf(interNationalPdfList,"rich_dad_poor_dad_Book by Robert Kiyosaki and Sharon Lechter","Robert Kiyosaki and Sharon Lechter",R.drawable.rich_dad_poor_dad);
+        setPdf(interNationalPdfList,"the_time_machine By H. G. Wells","H. G. Wells",R.drawable.the_time_machine);
+        setPdf(interNationalPdfList,"the_oldest_word_by_Johnny_Firic","Johnny Firic",R.drawable.the_oldest_word);
+        setPdf(interNationalPdfList,"1001_motivational_quotes_for_success_by_Thomas J. Vilord","Thomas J. Vilord",R.drawable.one_thausen_one_motivational_quotes_for_success);
+        setPdf(interNationalPdfList,"20000_leagues_under_the_sea_by_Jules Verne","Jules Verne",R.drawable.twinty_thusen_leagues_under_the_sea);
+        setPdf(interNationalPdfList,"a_christmas_carol_by_charles_dickens_by_Charles Dickens","Charles Dickens",R.drawable.a_christmas_carol_by_charles_dickens);
+        setPdf(interNationalPdfList,"a_connecticut_yankee_in_king_arthurs_court_by_mark_twain","mark_twain",R.drawable.a_connecticut_yankee_in_king_arthurs_court_by_mark_twain);
+        setPdf(interNationalPdfList,"a_tale_of_three_lions_by_henry_rider_haggard","henry_rider_haggard",R.drawable.a_tale_of_three_lions_by_henry_rider_haggard);
 
     }
-
-
 
 
 }//Main Class
