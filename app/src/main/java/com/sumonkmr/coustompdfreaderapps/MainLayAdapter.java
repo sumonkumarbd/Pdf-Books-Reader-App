@@ -1,6 +1,8 @@
 package com.sumonkmr.coustompdfreaderapps;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.HashMap;
@@ -39,16 +42,20 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         pdfTemp = pdfList.get(position);
-        String bookTitle,bookAuthor,bookCover;
+        String bookTitle,bookAuthor,bookCover,fileName;
         bookTitle = pdfTemp.get("title");
         bookAuthor = pdfTemp.get("author");
         bookCover = pdfTemp.get("cover");
+        fileName = pdfTemp.get("fileName");
 
         holder.titleName.setText(bookTitle);
         holder.authorName.setText(bookAuthor);
         holder.pdfCover.setImageResource(Integer.parseInt(bookCover));
          holder.pdfCover.setOnClickListener(v -> {
-             Toast.makeText(context,bookTitle, Toast.LENGTH_SHORT).show();
+             MainActivity.PdfFileName = fileName;
+             Intent intent = new Intent(context, PdfViewer.class);
+             context.startActivity(intent);
+//             Toast.makeText(context,bookTitle.concat(".pdf"), Toast.LENGTH_SHORT).show();
          });
 
          SetAnim(holder.itemView,position);
@@ -69,7 +76,7 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleName ,authorName;
+        public TextView titleName ,authorName ,fileName;
         public ImageView pdfCover,newTag;
 
         public ViewHolder(View view) {

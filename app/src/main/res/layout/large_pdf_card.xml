@@ -57,6 +57,8 @@
                 android:textColor="@color/white"
                 android:text="titleName"
                 android:textSize="@dimen/_12sp"
+                android:layout_marginHorizontal="@dimen/_5dp"
+                android:singleLine="true"
                 android:textStyle="bold" />
 
             <TextView
@@ -68,6 +70,8 @@
                 android:text="authorName"
                 android:textColor="@color/white"
                 android:layout_marginBottom="@dimen/_5dp"
+                android:layout_marginHorizontal="@dimen/_5dp"
+                android:singleLine="true"
                 android:textSize="@dimen/_10sp" />
         </LinearLayout>
     </RelativeLayout>
