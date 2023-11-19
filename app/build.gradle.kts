@@ -40,5 +40,5 @@ dependencies {
     implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1")
     implementation ("com.airbnb.android:lottie:6.1.0")
 
-    
-    }
+}
+
