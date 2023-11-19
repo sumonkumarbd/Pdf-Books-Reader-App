@@ -5,6 +5,7 @@ import static com.sumonkmr.coustompdfreaderapps.MainActivity.PdfFileName;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -92,6 +93,9 @@ public class PdfViewer extends AppCompatActivity {
         currentPageTV.setText(String.valueOf(currentPage));
         totalPageTV.setText(String.valueOf(totalPages));
         int progress = (int) (((float) (currentPage + 1) / totalPages) * 100);
+        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(progressBar, "progress", progress);
+        progressAnimator.setDuration(300); // Set the duration of the animation in milliseconds
+        progressAnimator.start();
 
         // Update the progress bar
         progressBar.setProgress(progress);

@@ -5,4 +5,9 @@
         <item name="android:progressDrawable">@drawable/custom_progress_bar_background</item>
         <item name="android:indeterminateDrawable">@drawable/custom_progress_bar_background</item>
     </style>
+
+    <style name="TitleProgressBar" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/title_progress_bar_background</item>
+        <item name="android:indeterminateDrawable">@drawable/title_progress_bar_background</item>
+    </style>
 </resources>

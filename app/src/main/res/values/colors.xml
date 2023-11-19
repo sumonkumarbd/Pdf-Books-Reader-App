@@ -8,6 +8,6 @@
     <color name="yellow">#D6640A</color>
     <color name="gray">#B4B6B8</color>
     <color name="stela">#C6D7B4</color>
-    <color name="shadow">#576B6D70</color>
+    <color name="shadow">#37000000</color>
     <color name="tns">#00000000</color>
 </resources>

@@ -44,20 +44,38 @@
             android:orientation="vertical"
             >
 
-            <TextView
-                android:id="@+id/trendingTag"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Trending Books"
-                android:textSize="@dimen/_15sp"
-                android:fontFamily="sans-serif-black"
-                android:textColor="@color/white"
-                android:background="@drawable/titlecard_for_redius"
-                android:paddingRight="@dimen/_100dp"
-                android:paddingLeft="@dimen/_10dp"
-                android:paddingVertical="@dimen/_5dp"
-                android:layout_marginVertical="@dimen/_5dp"
-                />
+                >
+                <ProgressBar
+                    android:id="@+id/progressBarTrending"
+                    style="@style/TitleProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30dp"
+                    android:minWidth="@dimen/_150dp"
+                    android:maxWidth="@dimen/_250dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    android:max="100" />
+                <TextView
+                    android:id="@+id/trendingTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/_150dp"
+                    android:maxWidth="@dimen/_250dp"
+                    android:text="Popular Books"
+                    android:textSize="@dimen/_15sp"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/white"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    />
+
+            </RelativeLayout>
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView"
