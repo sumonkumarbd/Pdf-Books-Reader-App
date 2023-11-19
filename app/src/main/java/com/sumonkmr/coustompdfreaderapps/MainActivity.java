@@ -1,14 +1,6 @@
 package com.sumonkmr.coustompdfreaderapps;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +9,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,12 +30,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1, recyclerViewForCat2;
     private RecyclerView.Adapter trending_sec_adapter, new_sec_adapter, cat1_sec_adapter, cat2_sec_adapter;
     private RecyclerView.LayoutManager layoutManager, layoutManager2, layoutManager3, layoutManager4;
-    ProgressBar progressBarTrending;
     private int currentPosition = 0;
     public static String PdfFileName;
     TextView trendingTag;
-    private int totalItems;
-    private int currentItems = 0;
+    private ProgressBar progressBarTrending,progressBarNew,progressBarDesi,progressBarInt;
+    public int maxScroll;
+    private boolean isProgressBarVisible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +59,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewForCat2 = findViewById(R.id.recyclerView4);
         trendingTag = findViewById(R.id.trendingTag);
         progressBarTrending = findViewById(R.id.progressBarTrending);
+        progressBarNew = findViewById(R.id.progressBarNew);
+        progressBarDesi = findViewById(R.id.progressBarDesi);
+        progressBarInt = findViewById(R.id.progressBarInt);
     }
 
     private void RecyclerCustomize(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
+
 
     }
 
@@ -98,10 +101,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Start automatic sliding
         RecViewAutoScroll(recyclerViewForTrendingSec, trending_sec_adapter, 3000);
-//        autoScroll(recyclerViewForNewSec, new_sec_adapter,4000);
-//        autoScroll(recyclerViewForCat1, cat1_sec_adapter,5000);
-//        autoScroll(recyclerViewForCat2, cat2_sec_adapter,6000);
+//        RecViewAutoScroll(recyclerViewForNewSec, new_sec_adapter,3000);
+//        RecViewAutoScroll(recyclerViewForCat1, cat1_sec_adapter,3000);
+//        RecViewAutoScroll(recyclerViewForCat2, cat2_sec_adapter,3000);
+
+
+
+
         ScrollViewCustomize();
+
 
 
         // Customize RecyclerView
@@ -123,13 +131,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 if (currentPosition == adapter.getItemCount() - 1) {
                     currentPosition = 0;
-                    currentItems = currentPosition;
-                    updateProgressBar(progressBarTrending);
                 } else {
                     currentPosition++;
-                    currentItems = currentPosition;
-                    totalItems = adapter.getItemCount();
-                    updateProgressBar(progressBarTrending);
                 }
                 recyclerView.smoothScrollToPosition(currentPosition);
                 handler.postDelayed(this, duration); // Adjust the delay as needed
@@ -159,11 +162,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                // Calculate the scroll progress
+                int scrolled = recyclerView.computeHorizontalScrollOffset();
+                int scrollRange = recyclerView.computeHorizontalScrollRange() - recyclerView.computeHorizontalScrollExtent();
+                int progress = (int) (100 * (float) scrolled / scrollRange);
 
+                // Update the ProgressBar
+                updateProgressBars(recyclerView,progressBarTrending,progress);
+//                updateProgressBars(recyclerView,progressBarNew,progress);
+//                updateProgressBars(recyclerView,progressBarDesi,progress);
+//                updateProgressBars(recyclerView,progressBarInt,progress);
             }
+
         });
 
+
     }//autoScroll
+
+    private void updateProgressBars(RecyclerView recyclerView,ProgressBar progressBar, int progress) {
+        // Calculate the maximum scroll range
+        maxScroll = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent();
+        if (!isProgressBarVisible && progress > 0) {
+            progressBar.setVisibility(View.VISIBLE);
+            isProgressBarVisible = true;
+        } else if (isProgressBarVisible && progress == 0) {
+            return;
+        }
+        progressBar.setProgress(progress);
+    }
 
 
     private void ScrollViewCustomize() {
@@ -209,7 +235,6 @@ public class MainActivity extends AppCompatActivity {
         pdfLibrary.add(getPdf(bookName.replace("_", " ").toUpperCase(), authorName.replace("_", " ").toUpperCase(), fileName, String.valueOf(coverPage)));
         return pdfLibrary;
     }
-
 
     public void PDFs() {
 //      ==========================================
@@ -265,17 +290,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    private void updateProgressBar(ProgressBar progressBar) {
-        // Calculate the progress percentage based on the current page and total pages
-        int progress = (int) (((float) (currentItems + 1) / totalItems) * 100);
-        ObjectAnimator progressAnimator = ObjectAnimator.ofInt(progressBar, "progress", progress);
-        progressAnimator.setDuration(300); // Set the duration of the animation in milliseconds
-        progressAnimator.start();
-
-        // Update the progress bar
-        progressBar.setProgress(progress);
-    }
 
 
 

@@ -85,19 +85,37 @@
                     android:layout_marginVertical="@dimen/_1dp"
                     android:scrollbars="none" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="New Books"
-                android:textSize="@dimen/_15sp"
-                android:fontFamily="sans-serif-black"
-                android:textColor="@color/white"
-                android:background="@drawable/titlecard_for_redius"
-                android:paddingRight="@dimen/_100dp"
-                android:paddingLeft="@dimen/_10dp"
-                android:paddingVertical="@dimen/_5dp"
-                android:layout_marginVertical="@dimen/_5dp"
-                />
+                >
+                <ProgressBar
+                    android:id="@+id/progressBarNew"
+                    style="@style/TitleProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30dp"
+                    android:minWidth="@dimen/_150dp"
+                    android:maxWidth="@dimen/_250dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    android:max="100" />
+                <TextView
+                    android:id="@+id/newTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/_150dp"
+                    android:maxWidth="@dimen/_250dp"
+                    android:text="New Books"
+                    android:textSize="@dimen/_15sp"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/white"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    />
+
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView2"
@@ -107,19 +125,37 @@
                 android:padding="@dimen/_10dp"
                 android:scrollbars="none" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bangladeshi Books"
-                android:textSize="@dimen/_15sp"
-                android:fontFamily="sans-serif-black"
-                android:textColor="@color/white"
-                android:background="@drawable/titlecard_for_redius"
-                android:paddingRight="@dimen/_100dp"
-                android:paddingLeft="@dimen/_10dp"
-                android:paddingVertical="@dimen/_5dp"
-                android:layout_marginVertical="@dimen/_5dp"
-                />
+                >
+                <ProgressBar
+                    android:id="@+id/progressBarDesi"
+                    style="@style/TitleProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30dp"
+                    android:minWidth="@dimen/_150dp"
+                    android:maxWidth="@dimen/_250dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    android:max="100" />
+                <TextView
+                    android:id="@+id/desiBookTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/_150dp"
+                    android:maxWidth="@dimen/_250dp"
+                    android:text="NewBangladeshi Books"
+                    android:textSize="@dimen/_15sp"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/white"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    />
+
+            </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView3"
@@ -130,20 +166,38 @@
                 android:layout_marginBottom="15dp"
                 android:scrollbars="none" />
 
-
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="International Books"
-                android:textSize="@dimen/_15sp"
-                android:fontFamily="sans-serif-black"
-                android:textColor="@color/white"
-                android:background="@drawable/titlecard_for_redius"
-                android:paddingRight="@dimen/_100dp"
-                android:paddingLeft="@dimen/_10dp"
-                android:paddingVertical="@dimen/_5dp"
-                android:layout_marginVertical="@dimen/_5dp"
-                />
+                >
+                <ProgressBar
+                    android:id="@+id/progressBarInt"
+                    style="@style/TitleProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30dp"
+                    android:minWidth="@dimen/_150dp"
+                    android:maxWidth="@dimen/_250dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    android:max="100" />
+                <TextView
+                    android:id="@+id/internationalBookTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="@dimen/_150dp"
+                    android:maxWidth="@dimen/_250dp"
+                    android:text="International Books"
+                    android:textSize="@dimen/_15sp"
+                    android:fontFamily="sans-serif-black"
+                    android:textColor="@color/white"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    />
+
+            </RelativeLayout>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView4"
                 android:layout_width="match_parent"
