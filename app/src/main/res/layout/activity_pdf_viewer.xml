@@ -8,6 +8,7 @@
     tools:context=".PdfViewer">
 
     <RelativeLayout
+        android:id="@+id/header_lay"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100dp">
 
@@ -45,6 +46,17 @@
             android:id="@+id/pdfView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/fullscreen_button"
+            android:tag="open"
+            android:layout_width="@dimen/_30dp"
+            android:layout_height="@dimen/_30dp"
+            android:src="@drawable/full_screen_icon_open"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/_5dp"
+            android:layout_marginEnd="@dimen/_5dp"
+            />
 
         <LinearLayout
             android:id="@+id/pageTV"

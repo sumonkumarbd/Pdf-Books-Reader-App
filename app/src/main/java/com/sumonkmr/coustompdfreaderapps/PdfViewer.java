@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -23,9 +24,10 @@ public class PdfViewer extends AppCompatActivity {
 
     PDFView pdfView;
     LinearLayout pageTV;
+    RelativeLayout header_lay;
     TextView currentPageTV, totalPageTV;
     LottieAnimationView loading;
-    ImageView canvasBar;
+    ImageView fullscreen_button;
     ProgressBar progressBar;
     private int totalPages;
     private int currentPage = 0;
@@ -53,19 +55,33 @@ public class PdfViewer extends AppCompatActivity {
                     updateProgressBar();
                     pdfView.setVisibility(View.VISIBLE);
                     pageTV.setVisibility(View.VISIBLE);
+                    fullscreen_button.setVisibility(View.VISIBLE);
                     loading.setVisibility(View.GONE);
                 })
                 .enableSwipe(true)
                 .pageFling(true)
                 .load();
 
+        fullscreen_button.setOnClickListener(v -> {
+            if (fullscreen_button.getTag().toString().contains("open")){
+                header_lay.setVisibility(View.GONE);
+                fullscreen_button.setImageDrawable(getDrawable(R.drawable.full_screen_icon_close));
+                fullscreen_button.setTag("close");
+            }else if (fullscreen_button.getTag().toString().contains("close")){
+                header_lay.setVisibility(View.VISIBLE);
+                fullscreen_button.setImageDrawable(getDrawable(R.drawable.full_screen_icon_open));
+                fullscreen_button.setTag("open");
+            }
+        });
+
     }
 
     private void Hookups() {
         pdfView = findViewById(R.id.pdfView);
         pageTV = findViewById(R.id.pageTV);
+        header_lay = findViewById(R.id.header_lay);
+        fullscreen_button = findViewById(R.id.fullscreen_button);
         loading = findViewById(R.id.loading);
-        canvasBar = findViewById(R.id.canvasBar);
         currentPageTV = findViewById(R.id.currentPageTV);
         totalPageTV = findViewById(R.id.totalPageTV);
         progressBar = findViewById(R.id.progressBar);
