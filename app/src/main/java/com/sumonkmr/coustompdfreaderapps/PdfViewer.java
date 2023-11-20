@@ -41,7 +41,6 @@ public class PdfViewer extends AppCompatActivity {
 
         pageTV.setVisibility(View.INVISIBLE);
         pdfView.setVisibility(View.INVISIBLE);
-        loading.setVisibility(View.VISIBLE);
 
         pdfView.fromAsset(PdfFileName)
                 .pageSnap(true)

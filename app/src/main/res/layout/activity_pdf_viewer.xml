@@ -39,6 +39,7 @@
             android:layout_height="match_parent"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
+            android:visibility="visible"
             app:lottie_rawRes="@raw/loading" />
 
 

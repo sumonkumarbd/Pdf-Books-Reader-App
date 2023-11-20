@@ -1,10 +1,12 @@
 package com.sumonkmr.coustompdfreaderapps;
 
 import android.animation.ObjectAnimator;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -25,15 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
     HashMap<String, String> pdfTemp;
     List<HashMap<String, String>> trendingPdfList, newPdfList, bangladeshiPdfList, interNationalPdfList;
-    ImageView canvasBar;
+    ImageView dashboard_logo;
     ScrollView parentScrollView;
     private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1, recyclerViewForCat2;
-    private RecyclerView.Adapter trending_sec_adapter, new_sec_adapter, cat1_sec_adapter, cat2_sec_adapter;
-    private RecyclerView.LayoutManager layoutManager, layoutManager2, layoutManager3, layoutManager4;
     private int currentPosition = 0;
     public static String PdfFileName;
     TextView trendingTag;
-    private ProgressBar progressBarTrending, progressBarNew, progressBarDesi, progressBarInt;
+    private ProgressBar progressBarTrending, progressBarNew, progressBarDesi, progressBarInt,canvasBar;
     public int maxScroll;
     private boolean isProgressBarVisible = false;
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private void HookUps() {
         parentScrollView = findViewById(R.id.parentScrollView);
         canvasBar = findViewById(R.id.canvasBar);
+        dashboard_logo = findViewById(R.id.dashboard_logo);
         recyclerViewForTrendingSec = findViewById(R.id.recyclerView);
         recyclerViewForNewSec = findViewById(R.id.recyclerView2);
         recyclerViewForCat1 = findViewById(R.id.recyclerView3);
@@ -78,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewForCat2.setHasFixedSize(true);
 
         // specify the view adapter
-        trending_sec_adapter = new MainLayAdapter(this, trendingPdfList);
-        new_sec_adapter = new SecoundLayAdapter(this, newPdfList);
-        cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdfList);
-        cat2_sec_adapter = new FourthLayAdapter(this, interNationalPdfList);
+        RecyclerView.Adapter trending_sec_adapter = new MainLayAdapter(this, trendingPdfList);
+        RecyclerView.Adapter new_sec_adapter = new SecoundLayAdapter(this, newPdfList);
+        RecyclerView.Adapter cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdfList);
+        RecyclerView.Adapter cat2_sec_adapter = new FourthLayAdapter(this, interNationalPdfList);
 
         recyclerViewForTrendingSec.setAdapter(trending_sec_adapter);
         recyclerViewForNewSec.setAdapter(new_sec_adapter);
@@ -89,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewForCat2.setAdapter(cat2_sec_adapter);
 
         // specify the view layout manager
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager3 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        layoutManager4 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerViewForTrendingSec.setLayoutManager(layoutManager);
         recyclerViewForNewSec.setLayoutManager(layoutManager2);
         recyclerViewForCat1.setLayoutManager(layoutManager3);
@@ -208,26 +209,11 @@ public class MainActivity extends AppCompatActivity {
         parentScrollView.isSmoothScrollingEnabled();
         parentScrollView.computeScroll();
         parentScrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (oldScrollY >= 150 && oldScrollY <= 250) {
-                canvasBar.setImageDrawable(getDrawable(R.color.red));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.red));
-            } else if (oldScrollY >= 250 && oldScrollY <= 400) {
-                canvasBar.setImageDrawable(getDrawable(R.color.deep_blue));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.deep_blue));
-            } else if (oldScrollY >= 400 && oldScrollY <= 550) {
-                canvasBar.setImageDrawable(getDrawable(R.color.black));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.black));
-            } else if (oldScrollY >= 550 && oldScrollY <= 700) {
-                canvasBar.setImageDrawable(getDrawable(R.color.yellow));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.yellow));
-            } else if (oldScrollY >= 700 && oldScrollY <= 850) {
-                canvasBar.setImageDrawable(getDrawable(R.color.light_blue));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.light_blue));
-            } else {
-                canvasBar.setImageDrawable(getDrawable(R.color.red));
-                getWindow().setStatusBarColor(ContextCompat.getColor(MainActivity.this, R.color.red));
-            }
-            Log.d("ForScrolling", "onScrollChange: " + scrollX + " " + scrollX + " " + oldScrollX + " " + oldScrollY);
+            int maxScrollAmount = parentScrollView.getChildAt(0).getHeight() - parentScrollView.getHeight();
+            canvasBar.setMax(maxScrollAmount);
+            canvasBar.setProgress(scrollY);
+            Log.d("TAG", "ScrollViewCustomize: "+maxScrollAmount+" "+scrollY);
+
         });
     }
 

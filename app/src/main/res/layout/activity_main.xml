@@ -17,15 +17,24 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/dashboad_temp"
+            android:src="@drawable/dashboad_cover"
             android:scaleType="centerCrop"
             />
 
         <ImageView
+            android:id="@+id/dashboard_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:padding="@dimen/_10dp"
+            android:src="@drawable/logo_png" />
+
+        <ProgressBar
             android:id="@+id/canvasBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_10dp"
-            android:background="@color/yellow"
+            style="@style/TitleProgressBar"
             android:layout_alignParentBottom="true"
             />
 
@@ -213,6 +222,7 @@
                 android:background="@color/red"
                 android:layout_marginBottom="@dimen/_10dp"
                 />
+
         </LinearLayout>
 
 
