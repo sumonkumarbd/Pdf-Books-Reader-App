@@ -11,7 +11,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100dp"
-        android:layout_marginBottom="@dimen/_10dp"
         >
 
         <ImageView
@@ -45,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@drawable/intro_cover"
         android:scrollbars="none">
 
         <LinearLayout
@@ -219,7 +219,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_2dp"
-                android:background="@color/red"
+                android:background="@color/yellow"
                 android:layout_marginBottom="@dimen/_10dp"
                 />
 
