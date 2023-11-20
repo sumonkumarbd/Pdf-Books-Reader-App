@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentPosition = 0;
     public static String PdfFileName;
     TextView trendingTag;
-    private ProgressBar progressBarTrending,progressBarNew,progressBarDesi,progressBarInt;
+    private ProgressBar progressBarTrending, progressBarNew, progressBarDesi, progressBarInt;
     public int maxScroll;
     private boolean isProgressBarVisible = false;
 
@@ -101,15 +101,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Start automatic sliding
         RecViewAutoScroll(recyclerViewForTrendingSec, trending_sec_adapter, 3000);
-//        RecViewAutoScroll(recyclerViewForNewSec, new_sec_adapter,3000);
-//        RecViewAutoScroll(recyclerViewForCat1, cat1_sec_adapter,3000);
-//        RecViewAutoScroll(recyclerViewForCat2, cat2_sec_adapter,3000);
 
-
+        // Manual Progressbar for recyclerView
+        ManualProgressBars(recyclerViewForNewSec,progressBarNew);
+        ManualProgressBars(recyclerViewForCat1,progressBarDesi);
+        ManualProgressBars(recyclerViewForCat2,progressBarInt);
 
 
         ScrollViewCustomize();
-
 
 
         // Customize RecyclerView
@@ -168,10 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 int progress = (int) (100 * (float) scrolled / scrollRange);
 
                 // Update the ProgressBar
-                updateProgressBars(recyclerView,progressBarTrending,progress);
-//                updateProgressBars(recyclerView,progressBarNew,progress);
-//                updateProgressBars(recyclerView,progressBarDesi,progress);
-//                updateProgressBars(recyclerView,progressBarInt,progress);
+                updateProgressBars(recyclerView, progressBarTrending, progress);
             }
 
         });
@@ -179,7 +175,29 @@ public class MainActivity extends AppCompatActivity {
 
     }//autoScroll
 
-    private void updateProgressBars(RecyclerView recyclerView,ProgressBar progressBar, int progress) {
+    private void ManualProgressBars(RecyclerView recyclerView, ProgressBar progressBar) {
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                // Calculate the scroll progress
+                int scrolled = recyclerView.computeHorizontalScrollOffset();
+                int scrollRange = recyclerView.computeHorizontalScrollRange() - recyclerView.computeHorizontalScrollExtent();
+                int progress = (int) (100 * (float) scrolled / scrollRange);
+                // Calculate the maximum scroll range
+                maxScroll = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent();
+                if (!isProgressBarVisible && progress > 0) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    isProgressBarVisible = true;
+                } else if (isProgressBarVisible && progress == 0) {
+                    return;
+                }
+                progressBar.setProgress(progress);
+            }
+        });
+    }
+
+    private void updateProgressBars(RecyclerView recyclerView, ProgressBar progressBar, int progress) {
         // Calculate the maximum scroll range
         maxScroll = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent();
         if (!isProgressBarVisible && progress > 0) {
@@ -289,8 +307,6 @@ public class MainActivity extends AppCompatActivity {
         setPdf(interNationalPdfList, "a_tale_of_three_lions_by_henry_rider_haggard", "henry_rider_haggard", "the_time_machine.pdf", R.drawable.a_tale_of_three_lions_by_henry_rider_haggard);
 
     }
-
-
 
 
 }//Main Class
