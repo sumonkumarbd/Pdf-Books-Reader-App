@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity {
         RecViewAutoScroll(recyclerViewForTrendingSec, trending_sec_adapter, 3000);
 
         // Manual Progressbar for recyclerView
-        ManualProgressBars(recyclerViewForNewSec,progressBarNew);
-        ManualProgressBars(recyclerViewForCat1,progressBarDesi);
-        ManualProgressBars(recyclerViewForCat2,progressBarInt);
+        ManualProgressBars(recyclerViewForNewSec, progressBarNew);
+        ManualProgressBars(recyclerViewForCat1, progressBarDesi);
+        ManualProgressBars(recyclerViewForCat2, progressBarInt);
 
 
         ScrollViewCustomize();
@@ -155,22 +155,8 @@ public class MainActivity extends AppCompatActivity {
         // Start the initial auto-scrolling task
         handler.postDelayed(runnable, duration); // Adjust the delay as needed
 
-
-//        For Manual Scrolling
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                // Calculate the scroll progress
-                int scrolled = recyclerView.computeHorizontalScrollOffset();
-                int scrollRange = recyclerView.computeHorizontalScrollRange() - recyclerView.computeHorizontalScrollExtent();
-                int progress = (int) (100 * (float) scrolled / scrollRange);
-
-                // Update the ProgressBar
-                updateProgressBars(recyclerView, progressBarTrending, progress);
-            }
-
-        });
+//        AutoProgressBar Call
+        AutoProgressBar(recyclerView, progressBarTrending);
 
 
     }//autoScroll
@@ -197,16 +183,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void updateProgressBars(RecyclerView recyclerView, ProgressBar progressBar, int progress) {
+    private void AutoProgressBar(RecyclerView recyclerView, ProgressBar progressBar) {
         // Calculate the maximum scroll range
         maxScroll = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent();
-        if (!isProgressBarVisible && progress > 0) {
-            progressBar.setVisibility(View.VISIBLE);
-            isProgressBarVisible = true;
-        } else if (isProgressBarVisible && progress == 0) {
-            return;
-        }
-        progressBar.setProgress(progress);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                // Calculate the scroll progress
+                int scrolled = recyclerView.computeHorizontalScrollOffset();
+                int scrollRange = recyclerView.computeHorizontalScrollRange() - recyclerView.computeHorizontalScrollExtent();
+                int progress = (int) (100 * (float) scrolled / scrollRange);
+
+                // Update the ProgressBar
+                progressBar.setProgress(progress);
+            }
+
+        });
+
     }
 
 
