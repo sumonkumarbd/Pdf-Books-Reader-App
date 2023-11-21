@@ -1,9 +1,7 @@
-package com.sumonkmr.coustompdfreaderapps;
+package com.sumonkmr.coustompdfreaderapps.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.sumonkmr.coustompdfreaderapps.MainActivity;
+import com.sumonkmr.coustompdfreaderapps.PdfViewer;
+import com.sumonkmr.coustompdfreaderapps.R;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,9 +54,12 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
         holder.pdfCover.setImageResource(Integer.parseInt(bookCover));
          holder.pdfCover.setOnClickListener(v -> {
              MainActivity.PdfFileName = fileName;
-             Intent intent = new Intent(context, PdfViewer.class);
-             context.startActivity(intent);
-//             Toast.makeText(context,bookTitle.concat(".pdf"), Toast.LENGTH_SHORT).show();
+             if (fileName.isEmpty()){
+                 Toast.makeText(context, "Coming soon...", Toast.LENGTH_SHORT).show();
+             }else {
+                 Intent intent = new Intent(context, PdfViewer.class);
+                 context.startActivity(intent);
+             }
          });
 
          SetAnim(holder.itemView,position);

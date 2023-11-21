@@ -1,12 +1,9 @@
 package com.sumonkmr.coustompdfreaderapps;
 
-import android.animation.ObjectAnimator;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -14,10 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.sumonkmr.coustompdfreaderapps.adapters.FourthLayAdapter;
+import com.sumonkmr.coustompdfreaderapps.adapters.MainLayAdapter;
+import com.sumonkmr.coustompdfreaderapps.adapters.SecoundLayAdapter;
+import com.sumonkmr.coustompdfreaderapps.adapters.ThirdLayAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,11 +66,6 @@ public class MainActivity extends AppCompatActivity {
         progressBarInt = findViewById(R.id.progressBarInt);
     }
 
-    private void RecyclerCustomize(RecyclerView recyclerView, RecyclerView.Adapter adapter) {
-
-
-    }
-
     private void RecyclerDefiner() {
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -111,12 +107,6 @@ public class MainActivity extends AppCompatActivity {
 
         ScrollViewCustomize();
 
-
-        // Customize RecyclerView
-        RecyclerCustomize(recyclerViewForTrendingSec, trending_sec_adapter);
-        RecyclerCustomize(recyclerViewForNewSec, new_sec_adapter);
-        RecyclerCustomize(recyclerViewForCat1, cat1_sec_adapter);
-        RecyclerCustomize(recyclerViewForCat2, cat2_sec_adapter);
 
 
     }//RecyclerDefiner()
@@ -212,10 +202,9 @@ public class MainActivity extends AppCompatActivity {
             int maxScrollAmount = parentScrollView.getChildAt(0).getHeight() - parentScrollView.getHeight();
             canvasBar.setMax(maxScrollAmount);
             canvasBar.setProgress(scrollY);
-            Log.d("TAG", "ScrollViewCustomize: "+maxScrollAmount+" "+scrollY);
-
         });
     }
+
 
 
     private HashMap<String, String> getPdf(String title, String author, String fileName, String cover) {
@@ -239,7 +228,8 @@ public class MainActivity extends AppCompatActivity {
 //      Trending Pdf List
 //      ==========================================
         trendingPdfList = new ArrayList<>();
-        setPdf(trendingPdfList, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.spoken_english_munzereen_shahid);
+        setPdf(trendingPdfList, "মোবাইল অ্যাপে ক্যারিয়ার", "জুবায়ের হোসেন", "", R.drawable.mobile_app);
+        setPdf(trendingPdfList, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "", R.drawable.spoken_english_munzereen_shahid);
         setPdf(trendingPdfList, "the_time_machine By H. G. Wells", "H. G. Wells", "the_time_machine.pdf", R.drawable.the_time_machine);
         setPdf(trendingPdfList, "smart_carier_by_sohan_haydar", "sohan_haydar", "the_time_machine.pdf", R.drawable.smart_carier_by_sohan_haydar);
         setPdf(trendingPdfList, "ghore_bose_ay_korun_by_joyita_benarjee", "joyita_benarjee", "the_time_machine.pdf", R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
@@ -263,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
 //      Bangladeshi Pdf List
 //      ==========================================
         bangladeshiPdfList = new ArrayList<>();
+        setPdf(bangladeshiPdfList, "মোবাইল অ্যাপে ক্যারিয়ার", "জুবায়ের হোসেন", "", R.drawable.mobile_app);
         setPdf(bangladeshiPdfList, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.spoken_english_munzereen_shahid);
         setPdf(bangladeshiPdfList, "sobar_jonne_vocabulary_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
         setPdf(bangladeshiPdfList, "smart_carier_by_sohan_haydar", "sohan_haydar", "the_time_machine.pdf", R.drawable.smart_carier_by_sohan_haydar);

@@ -18,11 +18,14 @@
         android:id="@+id/cover"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_170dp"
-        android:layout_margin="@dimen/_10dp"
-        android:src="@drawable/kalyani_jibananda_das"
-        android:scaleType="centerCrop"
+        android:layout_marginStart="@dimen/_10dp"
+        android:layout_marginTop="@dimen/_10dp"
+        android:layout_marginEnd="@dimen/_10dp"
+        android:layout_marginBottom="@dimen/_10dp"
         android:background="@drawable/titlecard_for_redius"
-        />
+        android:scaleType="centerCrop"
+        android:elevation="@dimen/_10dp"
+        android:src="@drawable/kalyani_jibananda_das" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,6 +33,7 @@
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:paddingVertical="@dimen/_3dp"
+        android:elevation="@dimen/_10dp"
         android:background="@drawable/titlecard_for_redius"
         >
         <TextView

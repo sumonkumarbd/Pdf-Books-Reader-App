@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
         introLogo = findViewById(R.id.introLogo);
 
         Animation slideIN = AnimationUtils.loadAnimation(this,R.anim.left_to_right);
-                        slideIN.setDuration(2000);
+                        slideIN.setDuration(1700);
         introLogo.startAnimation(slideIN);
 
 
@@ -33,6 +33,6 @@ public class SplashScreen extends AppCompatActivity {
             finish();
         };
 
-        handler.postDelayed(runnable,3000);
+        handler.postDelayed(runnable,2000);
     }
 }

@@ -1,4 +1,4 @@
-package com.sumonkmr.coustompdfreaderapps;
+package com.sumonkmr.coustompdfreaderapps.adapters;
 
         import android.content.Context;
         import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ package com.sumonkmr.coustompdfreaderapps;
         import android.widget.Toast;
 
         import androidx.recyclerview.widget.RecyclerView;
+
+        import com.sumonkmr.coustompdfreaderapps.R;
 
         import java.util.HashMap;
         import java.util.List;

@@ -1,26 +1,30 @@
-package com.sumonkmr.coustompdfreaderapps;
 
-        import android.content.Context;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
-        import android.widget.ImageView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+package com.sumonkmr.coustompdfreaderapps.adapters;
 
-        import androidx.recyclerview.widget.RecyclerView;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import java.util.HashMap;
-        import java.util.List;
-public class SecoundLayAdapter extends RecyclerView.Adapter<SecoundLayAdapter.ViewHolder> {
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.sumonkmr.coustompdfreaderapps.R;
+
+import java.util.HashMap;
+import java.util.List;
+
+public class FourthLayAdapter extends RecyclerView.Adapter<FourthLayAdapter.ViewHolder> {
 
     Context context;
-    HashMap<String,String> pdfTemp;
-    List<HashMap<String,String>> pdfList;
+    HashMap<String, String> pdfTemp;
+    List<HashMap<String, String>> pdfList;
 
-    public SecoundLayAdapter(Context c,List<HashMap<String, String>> pdfList) {
+    public FourthLayAdapter(Context c, List<HashMap<String, String>> pdfList) {
         this.context = c;
         this.pdfList = pdfList;
     }
@@ -37,7 +41,7 @@ public class SecoundLayAdapter extends RecyclerView.Adapter<SecoundLayAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         pdfTemp = pdfList.get(position);
-        String bookTitle,bookAuthor,bookCover;
+        String bookTitle, bookAuthor, bookCover;
         bookTitle = pdfTemp.get("title");
         bookAuthor = pdfTemp.get("author");
         bookCover = pdfTemp.get("cover");
@@ -48,11 +52,11 @@ public class SecoundLayAdapter extends RecyclerView.Adapter<SecoundLayAdapter.Vi
         holder.pdfCover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,bookTitle, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, bookTitle, Toast.LENGTH_SHORT).show();
             }
         });
 
-        SetAnim(holder.itemView,position);
+        SetAnim(holder.itemView, position);
 
     }
 
@@ -62,7 +66,7 @@ public class SecoundLayAdapter extends RecyclerView.Adapter<SecoundLayAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleName ,authorName;
+        public TextView titleName, authorName;
         public ImageView pdfCover;
 
         public ViewHolder(View view) {
@@ -74,8 +78,10 @@ public class SecoundLayAdapter extends RecyclerView.Adapter<SecoundLayAdapter.Vi
     }
 
 
-    private void SetAnim(View view,int position){
-        Animation anim = AnimationUtils.loadAnimation(context,R.anim.fade_in);
+    private void SetAnim(View view, int position) {
+        Animation anim = AnimationUtils.loadAnimation(context, R.anim.fade_in);
         view.startAnimation(anim);
     }
 }
+
+

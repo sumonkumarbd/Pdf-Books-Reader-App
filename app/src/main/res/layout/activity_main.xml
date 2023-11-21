@@ -10,32 +10,29 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_100dp"
-        >
+        android:layout_height="@dimen/_100dp">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/dashboad_cover"
             android:scaleType="centerCrop"
-            />
+            android:src="@drawable/dashboad_cover" />
 
         <ImageView
             android:id="@+id/dashboard_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter"
             android:padding="@dimen/_10dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/logo_png" />
 
         <ProgressBar
             android:id="@+id/canvasBar"
+            style="@style/TitleProgressBar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_10dp"
-            style="@style/TitleProgressBar"
-            android:layout_alignParentBottom="true"
-            />
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
@@ -43,86 +40,86 @@
         android:id="@+id/parentScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:background="@drawable/intro_cover"
+        android:orientation="vertical"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <ProgressBar
                     android:id="@+id/progressBarTrending"
                     style="@style/TitleProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30dp"
-                    android:minWidth="@dimen/_150dp"
-                    android:maxWidth="@dimen/_250dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_marginVertical="@dimen/_5dp"
-                    android:max="100" />
+                    android:max="100"
+                    android:maxWidth="@dimen/_250dp"
+                    android:minWidth="@dimen/_150dp" />
+
                 <TextView
                     android:id="@+id/trendingTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/_150dp"
-                    android:maxWidth="@dimen/_250dp"
-                    android:text="Popular Books"
-                    android:textSize="@dimen/_15sp"
-                    android:fontFamily="sans-serif-black"
-                    android:textColor="@color/white"
-                    android:paddingLeft="@dimen/_10dp"
-                    android:paddingVertical="@dimen/_5dp"
                     android:layout_marginVertical="@dimen/_5dp"
-                    />
+                    android:fontFamily="sans-serif-black"
+                    android:maxWidth="@dimen/_250dp"
+                    android:minWidth="@dimen/_150dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:text="Popular Books"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp" />
 
             </RelativeLayout>
 
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_220dp"
-                    android:layout_gravity="center"
-                    android:layout_marginVertical="@dimen/_1dp"
-                    android:scrollbars="none" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_220dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="@dimen/_1dp"
+                android:scrollbars="none" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <ProgressBar
                     android:id="@+id/progressBarNew"
                     style="@style/TitleProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30dp"
-                    android:minWidth="@dimen/_150dp"
-                    android:maxWidth="@dimen/_250dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_marginVertical="@dimen/_5dp"
-                    android:max="100" />
+                    android:max="100"
+                    android:maxWidth="@dimen/_250dp"
+                    android:minWidth="@dimen/_150dp" />
+
                 <TextView
                     android:id="@+id/newTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/_150dp"
-                    android:maxWidth="@dimen/_250dp"
-                    android:text="New Books"
-                    android:textSize="@dimen/_15sp"
-                    android:fontFamily="sans-serif-black"
-                    android:textColor="@color/white"
-                    android:paddingLeft="@dimen/_10dp"
-                    android:paddingVertical="@dimen/_5dp"
                     android:layout_marginVertical="@dimen/_5dp"
-                    />
+                    android:fontFamily="sans-serif-black"
+                    android:maxWidth="@dimen/_250dp"
+                    android:minWidth="@dimen/_150dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:text="New Books"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp" />
 
             </RelativeLayout>
 
@@ -136,33 +133,33 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <ProgressBar
                     android:id="@+id/progressBarDesi"
                     style="@style/TitleProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30dp"
-                    android:minWidth="@dimen/_170dp"
-                    android:maxWidth="@dimen/_200dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_marginVertical="@dimen/_5dp"
-                    android:max="100" />
+                    android:max="100"
+                    android:maxWidth="@dimen/_200dp"
+                    android:minWidth="@dimen/_170dp" />
+
                 <TextView
                     android:id="@+id/desiBookTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/_170dp"
-                    android:maxWidth="@dimen/_200dp"
-                    android:text="Bangladeshi Books"
-                    android:textSize="@dimen/_15sp"
-                    android:fontFamily="sans-serif-black"
-                    android:textColor="@color/white"
-                    android:paddingLeft="@dimen/_10dp"
-                    android:paddingVertical="@dimen/_5dp"
                     android:layout_marginVertical="@dimen/_5dp"
-                    />
+                    android:fontFamily="sans-serif-black"
+                    android:maxWidth="@dimen/_200dp"
+                    android:minWidth="@dimen/_170dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:text="Bangladeshi Books"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp" />
 
             </RelativeLayout>
 
@@ -177,33 +174,33 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
+
                 <ProgressBar
                     android:id="@+id/progressBarInt"
                     style="@style/TitleProgressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_30dp"
-                    android:minWidth="@dimen/_170dp"
-                    android:maxWidth="@dimen/_200dp"
                     android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
                     android:layout_marginVertical="@dimen/_5dp"
-                    android:max="100" />
+                    android:max="100"
+                    android:maxWidth="@dimen/_200dp"
+                    android:minWidth="@dimen/_170dp" />
+
                 <TextView
                     android:id="@+id/internationalBookTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="@dimen/_170dp"
-                    android:maxWidth="@dimen/_200dp"
-                    android:text="International Books"
-                    android:textSize="@dimen/_15sp"
-                    android:fontFamily="sans-serif-black"
-                    android:textColor="@color/white"
-                    android:paddingLeft="@dimen/_10dp"
-                    android:paddingVertical="@dimen/_5dp"
                     android:layout_marginVertical="@dimen/_5dp"
-                    />
+                    android:fontFamily="sans-serif-black"
+                    android:maxWidth="@dimen/_200dp"
+                    android:minWidth="@dimen/_170dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:text="International Books"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp" />
 
             </RelativeLayout>
 
@@ -219,9 +216,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_2dp"
-                android:background="@color/yellow"
                 android:layout_marginBottom="@dimen/_10dp"
-                />
+                android:background="@color/yellow" />
 
         </LinearLayout>
 

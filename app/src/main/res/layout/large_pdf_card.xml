@@ -23,6 +23,7 @@
             android:layout_marginBottom="@dimen/_10dp"
             android:background="@drawable/titlecard_for_redius"
             android:scaleType="centerCrop"
+            android:elevation="@dimen/_10dp"
             android:src="@drawable/kalyani_jibananda_das" />
 
         <ImageView
@@ -47,6 +48,7 @@
             android:layout_alignParentBottom="true"
             android:paddingVertical="@dimen/_3dp"
             android:background="@drawable/titlecard_for_redius"
+            android:elevation="@dimen/_10dp"
             >
             <TextView
                 android:id="@+id/titleName"
