@@ -213,7 +213,6 @@ public class MainActivity extends AppCompatActivity {
         progressBar.getProgressDrawable().setColorFilter(newProgressColor, android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
-
     private void ScrollViewCustomize() {
         parentScrollView.isSmoothScrollingEnabled();
         parentScrollView.computeScroll();
@@ -229,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private HashMap<String, String> getPdf(String title, String author, String fileName, String cover) {
 
@@ -338,10 +336,5 @@ public class MainActivity extends AppCompatActivity {
 
         // ... rest of your activity initialization code
     }
-
-
-
-
-
 
 }//Main Class
