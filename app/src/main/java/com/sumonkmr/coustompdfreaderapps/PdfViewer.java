@@ -98,5 +98,7 @@ public class PdfViewer extends AppCompatActivity {
 
         // Update the progress bar
         progressBar.setProgress(progress);
+        Log.d("TAG", "updateProgressBar: "+progress+" "+totalPages);
+
     }
 }

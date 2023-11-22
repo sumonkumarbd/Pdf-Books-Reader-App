@@ -1,5 +1,6 @@
 package com.sumonkmr.coustompdfreaderapps;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -9,8 +10,10 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentPosition = 0;
     public static String PdfFileName;
     TextView trendingTag;
-    private ProgressBar progressBarTrending, progressBarNew, progressBarDesi, progressBarInt,canvasBar;
+    private ProgressBar progressBarTrending, progressBarNew, progressBarDesi, progressBarInt, canvasBar;
     public int maxScroll;
     private boolean isProgressBarVisible = false;
 
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         HookUps();//For HookUps xml with java
         PDFs();//All Pdf List
         RecyclerDefiner();//Settings of RecyclerView
+        BackPress(); //OnBackPress.
 
     }//onCreate Finished.
 
@@ -108,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         ScrollViewCustomize();
-
 
 
     }//RecyclerDefiner()
@@ -172,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 progressBar.setProgress(progress);
-                SetProgressFullColor(progressBar,progress);
+                SetProgressFullColor(progressBar, progress);
 
             }
         });
@@ -192,18 +195,18 @@ public class MainActivity extends AppCompatActivity {
 
                 // Update the ProgressBar
                 progressBar.setProgress(progress);
-                SetProgressFullColor(progressBar,progress);
+                SetProgressFullColor(progressBar, progress);
             }
 
         });
 
     }
 
-    private void SetProgressFullColor(ProgressBar progressBar,int progress) {
+    private void SetProgressFullColor(ProgressBar progressBar, int progress) {
         int newProgressColor;
-        if (progress == 100){
+        if (progress == 100) {
             newProgressColor = ContextCompat.getColor(MainActivity.this, R.color.red);
-        }else {
+        } else {
             newProgressColor = ContextCompat.getColor(MainActivity.this, R.color.yellow);
         }
         progressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.title_progress_secendry));
@@ -219,14 +222,13 @@ public class MainActivity extends AppCompatActivity {
             canvasBar.setMax(maxScrollAmount);
             canvasBar.setProgress(scrollY);
 
-            if (scrollY == maxScrollAmount){
+            if (scrollY == maxScrollAmount) {
                 getWindow().setStatusBarColor(getColor(R.color.red));
-            }else {
+            } else {
                 getWindow().setStatusBarColor(getColor(R.color.yellow));
             }
         });
     }
-
 
 
     private HashMap<String, String> getPdf(String title, String author, String fileName, String cover) {
@@ -300,6 +302,46 @@ public class MainActivity extends AppCompatActivity {
         setPdf(interNationalPdf, "a_tale_of_three_lions_by_henry_rider_haggard", "henry_rider_haggard", "a_tale_of_three_lions_by_henry_rider_haggard.pdf", R.drawable.a_tale_of_three_lions_by_henry_rider_haggard);
 
     }
+
+    private void BackPress() {
+        // Set up a callback to handle the back button press
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Custom handling for the back button press
+                // You can show a dialog or perform any custom action here
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Exit")
+                        .setMessage("Are you sure you want to exit?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Close the application
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Dismiss the dialog
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+
+            // If you want to proceed with the default behavior (closing the activity), call the following:
+            // MyComponentActivity.super.onBackPressed();
+        };
+
+        // Add the callback to the OnBackPressedDispatcher
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
+        // ... rest of your activity initialization code
+    }
+
+
+
+
 
 
 }//Main Class
