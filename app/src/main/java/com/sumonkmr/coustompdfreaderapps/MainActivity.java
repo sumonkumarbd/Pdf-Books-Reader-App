@@ -9,8 +9,10 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +29,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     HashMap<String, String> pdfTemp;
-    List<HashMap<String, String>> trendingPdfList, newPdfList, bangladeshiPdfList, interNationalPdfList;
+    List<HashMap<String, String>> popularPdf, newPdf, bangladeshiPdf, interNationalPdf;
     ImageView dashboard_logo;
     ScrollView parentScrollView;
     private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1, recyclerViewForCat2;
@@ -75,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewForCat2.setHasFixedSize(true);
 
         // specify the view adapter
-        RecyclerView.Adapter trending_sec_adapter = new MainLayAdapter(this, trendingPdfList);
-        RecyclerView.Adapter new_sec_adapter = new SecoundLayAdapter(this, newPdfList);
-        RecyclerView.Adapter cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdfList);
-        RecyclerView.Adapter cat2_sec_adapter = new FourthLayAdapter(this, interNationalPdfList);
+        RecyclerView.Adapter trending_sec_adapter = new MainLayAdapter(this, popularPdf);
+        RecyclerView.Adapter new_sec_adapter = new SecoundLayAdapter(this, newPdf);
+        RecyclerView.Adapter cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdf);
+        RecyclerView.Adapter cat2_sec_adapter = new FourthLayAdapter(this, interNationalPdf);
 
         recyclerViewForTrendingSec.setAdapter(trending_sec_adapter);
         recyclerViewForNewSec.setAdapter(new_sec_adapter);
@@ -170,6 +172,8 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 progressBar.setProgress(progress);
+                SetProgressFullColor(progressBar,progress);
+
             }
         });
     }
@@ -188,10 +192,22 @@ public class MainActivity extends AppCompatActivity {
 
                 // Update the ProgressBar
                 progressBar.setProgress(progress);
+                SetProgressFullColor(progressBar,progress);
             }
 
         });
 
+    }
+
+    private void SetProgressFullColor(ProgressBar progressBar,int progress) {
+        int newProgressColor;
+        if (progress == 100){
+            newProgressColor = ContextCompat.getColor(MainActivity.this, R.color.red);
+        }else {
+            newProgressColor = ContextCompat.getColor(MainActivity.this, R.color.yellow);
+        }
+        progressBar.setProgressDrawable(ContextCompat.getDrawable(MainActivity.this, R.drawable.title_progress_secendry));
+        progressBar.getProgressDrawable().setColorFilter(newProgressColor, android.graphics.PorterDuff.Mode.SRC_IN);
     }
 
 
@@ -202,6 +218,12 @@ public class MainActivity extends AppCompatActivity {
             int maxScrollAmount = parentScrollView.getChildAt(0).getHeight() - parentScrollView.getHeight();
             canvasBar.setMax(maxScrollAmount);
             canvasBar.setProgress(scrollY);
+
+            if (scrollY == maxScrollAmount){
+                getWindow().setStatusBarColor(getColor(R.color.red));
+            }else {
+                getWindow().setStatusBarColor(getColor(R.color.yellow));
+            }
         });
     }
 
@@ -227,55 +249,55 @@ public class MainActivity extends AppCompatActivity {
 //      ==========================================
 //      Trending Pdf List
 //      ==========================================
-        trendingPdfList = new ArrayList<>();
-        setPdf(trendingPdfList, "মোবাইল অ্যাপে ক্যারিয়ার", "জুবায়ের হোসেন", "", R.drawable.mobile_app);
-        setPdf(trendingPdfList, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "", R.drawable.spoken_english_munzereen_shahid);
-        setPdf(trendingPdfList, "the_time_machine By H. G. Wells", "H. G. Wells", "the_time_machine.pdf", R.drawable.the_time_machine);
-        setPdf(trendingPdfList, "smart_carier_by_sohan_haydar", "sohan_haydar", "the_time_machine.pdf", R.drawable.smart_carier_by_sohan_haydar);
-        setPdf(trendingPdfList, "ghore_bose_ay_korun_by_joyita_benarjee", "joyita_benarjee", "the_time_machine.pdf", R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
-        setPdf(trendingPdfList, "sobar_jonne_vocabulary_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
-        setPdf(trendingPdfList, "rich_dad_poor_dad_Book by Robert Kiyosaki and Sharon Lechter", "Robert Kiyosaki and Sharon Lechter", "the_time_machine.pdf", R.drawable.rich_dad_poor_dad);
-        setPdf(trendingPdfList, "a_christmas_carol_by_charles_dickens_by_Charles Dickens", "Charles Dickens", "the_time_machine.pdf", R.drawable.a_christmas_carol_by_charles_dickens);
+        popularPdf = new ArrayList<>();
+        setPdf(popularPdf, "মোবাইল অ্যাপে ক্যারিয়ার", "জুবায়ের হোসেন", "", R.drawable.mobile_app);
+        setPdf(popularPdf, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "", R.drawable.spoken_english_munzereen_shahid);
+        setPdf(popularPdf, "the_time_machine By H. G. Wells", "H. G. Wells", "the_time_machine.pdf", R.drawable.the_time_machine);
+        setPdf(popularPdf, "smart_carier_by_sohan_haydar", "sohan_haydar", "the_time_machine.pdf", R.drawable.smart_carier_by_sohan_haydar);
+        setPdf(popularPdf, "ghore_bose_ay_korun_by_joyita_benarjee", "joyita_benarjee", "the_time_machine.pdf", R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
+        setPdf(popularPdf, "sobar_jonne_vocabulary_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
+        setPdf(popularPdf, "rich_dad_poor_dad_Book by Robert Kiyosaki and Sharon Lechter", "Robert Kiyosaki and Sharon Lechter", "the_time_machine.pdf", R.drawable.rich_dad_poor_dad);
+        setPdf(popularPdf, "a_christmas_carol_by_charles_dickens_by_Charles Dickens", "Charles Dickens", "the_time_machine.pdf", R.drawable.a_christmas_carol_by_charles_dickens);
 
 //      ==========================================
 //      New Pdf List
 //      ==========================================
-        newPdfList = new ArrayList<>();
-        setPdf(newPdfList, "graphics_design_er_asol_fanda_by_asif_hossen", "asif_hossen", "the_time_machine.pdf", R.drawable.graphics_design_er_asol_fanda_by_asif_hossen);
-        setPdf(newPdfList, "smart_carier_by_sohan_haydar", "sohan_haydar", "the_time_machine.pdf", R.drawable.smart_carier_by_sohan_haydar);
-        setPdf(newPdfList, "mobile_photography_by_sadman_sakib", "sadman_sakib", "the_time_machine.pdf", R.drawable.mobile_photography_by_sadman_sakib);
-        setPdf(newPdfList, "ghore_bose_ay_korun_by_joyita_benarjee", "joyita_benarjee", "the_time_machine.pdf", R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
-        setPdf(newPdfList, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.spoken_english_munzereen_shahid);
-        setPdf(newPdfList, "sobar_jonne_vocabulary_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
+        newPdf = new ArrayList<>();
+        setPdf(newPdf, "graphics_design_er_asol_fanda_by_asif_hossen", "asif_hossen", "the_time_machine.pdf", R.drawable.graphics_design_er_asol_fanda_by_asif_hossen);
+        setPdf(newPdf, "smart_carier_by_sohan_haydar", "sohan_haydar", "the_time_machine.pdf", R.drawable.smart_carier_by_sohan_haydar);
+        setPdf(newPdf, "mobile_photography_by_sadman_sakib", "sadman_sakib", "the_time_machine.pdf", R.drawable.mobile_photography_by_sadman_sakib);
+        setPdf(newPdf, "ghore_bose_ay_korun_by_joyita_benarjee", "joyita_benarjee", "the_time_machine.pdf", R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
+        setPdf(newPdf, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.spoken_english_munzereen_shahid);
+        setPdf(newPdf, "sobar_jonne_vocabulary_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
 
 
 //      ==========================================
 //      Bangladeshi Pdf List
 //      ==========================================
-        bangladeshiPdfList = new ArrayList<>();
-        setPdf(bangladeshiPdfList, "মোবাইল অ্যাপে ক্যারিয়ার", "জুবায়ের হোসেন", "", R.drawable.mobile_app);
-        setPdf(bangladeshiPdfList, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.spoken_english_munzereen_shahid);
-        setPdf(bangladeshiPdfList, "sobar_jonne_vocabulary_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
-        setPdf(bangladeshiPdfList, "smart_carier_by_sohan_haydar", "sohan_haydar", "the_time_machine.pdf", R.drawable.smart_carier_by_sohan_haydar);
-        setPdf(bangladeshiPdfList, "ghore_bose_ay_korun_by_joyita_benarjee", "joyita_benarjee", "the_time_machine.pdf", R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
-        setPdf(bangladeshiPdfList, "mobile_photography_by_sadman_sakib", "sadman_sakib", "the_time_machine.pdf", R.drawable.mobile_photography_by_sadman_sakib);
-        setPdf(bangladeshiPdfList, "graphics_design_er_asol_fanda_by_asif_hossen", "asif_hossen", "the_time_machine.pdf", R.drawable.graphics_design_er_asol_fanda_by_asif_hossen);
-        setPdf(bangladeshiPdfList, "কল্যাণী - জীবনানন্দ দাশ", "জীবনানন্দ দাশ", "the_time_machine.pdf", R.drawable.kalyani_jibananda_das);
-        setPdf(bangladeshiPdfList, "এসেছ তুমি রচিত হতে - কোয়েল তালুকদার", "কোয়েল তালুকদার", "the_time_machine.pdf", R.drawable.esecho_tumi_rachito_hote);
+        bangladeshiPdf = new ArrayList<>();
+        setPdf(bangladeshiPdf, "মোবাইল অ্যাপে ক্যারিয়ার", "জুবায়ের হোসেন", "", R.drawable.mobile_app);
+        setPdf(bangladeshiPdf, "spoken_english_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.spoken_english_munzereen_shahid);
+        setPdf(bangladeshiPdf, "sobar_jonne_vocabulary_by_munzereen_shahid", "munzereen_shahid", "the_time_machine.pdf", R.drawable.sobar_jonne_vocabulary_by_munzereen_shahid);
+        setPdf(bangladeshiPdf, "smart_carier_by_sohan_haydar", "sohan_haydar", "the_time_machine.pdf", R.drawable.smart_carier_by_sohan_haydar);
+        setPdf(bangladeshiPdf, "ghore_bose_ay_korun_by_joyita_benarjee", "joyita_benarjee", "the_time_machine.pdf", R.drawable.ghore_bose_ay_korun_by_joyita_banerji);
+        setPdf(bangladeshiPdf, "mobile_photography_by_sadman_sakib", "sadman_sakib", "the_time_machine.pdf", R.drawable.mobile_photography_by_sadman_sakib);
+        setPdf(bangladeshiPdf, "graphics_design_er_asol_fanda_by_asif_hossen", "asif_hossen", "the_time_machine.pdf", R.drawable.graphics_design_er_asol_fanda_by_asif_hossen);
+        setPdf(bangladeshiPdf, "কল্যাণী - জীবনানন্দ দাশ", "জীবনানন্দ দাশ", "the_time_machine.pdf", R.drawable.kalyani_jibananda_das);
+        setPdf(bangladeshiPdf, "এসেছ তুমি রচিত হতে - কোয়েল তালুকদার", "কোয়েল তালুকদার", "the_time_machine.pdf", R.drawable.esecho_tumi_rachito_hote);
 
 
 //      ==========================================
 //      Bangladeshi Pdf List
 //      ==========================================
-        interNationalPdfList = new ArrayList<>();
-        setPdf(interNationalPdfList, "rich_dad_poor_dad_Book by Robert Kiyosaki and Sharon Lechter", "Robert Kiyosaki and Sharon Lechter", "the_time_machine.pdf", R.drawable.rich_dad_poor_dad);
-        setPdf(interNationalPdfList, "the_time_machine By H. G. Wells", "H. G. Wells", "the_time_machine.pdf", R.drawable.the_time_machine);
-        setPdf(interNationalPdfList, "the_oldest_word_by_Johnny_Firic", "Johnny Firic", "the_time_machine.pdf", R.drawable.the_oldest_word);
-        setPdf(interNationalPdfList, "1001_motivational_quotes_for_success_by_Thomas J. Vilord", "Thomas J. Vilord", "the_time_machine.pdf", R.drawable.one_thausen_one_motivational_quotes_for_success);
-        setPdf(interNationalPdfList, "20000_leagues_under_the_sea_by_Jules Verne", "Jules Verne", "the_time_machine.pdf", R.drawable.twinty_thusen_leagues_under_the_sea);
-        setPdf(interNationalPdfList, "a_christmas_carol_by_charles_dickens_by_Charles Dickens", "Charles Dickens", "the_time_machine.pdf", R.drawable.a_christmas_carol_by_charles_dickens);
-        setPdf(interNationalPdfList, "a_connecticut_yankee_in_king_arthurs_court_by_mark_twain", "mark_twain", "the_time_machine.pdf", R.drawable.a_connecticut_yankee_in_king_arthurs_court_by_mark_twain);
-        setPdf(interNationalPdfList, "a_tale_of_three_lions_by_henry_rider_haggard", "henry_rider_haggard", "the_time_machine.pdf", R.drawable.a_tale_of_three_lions_by_henry_rider_haggard);
+        interNationalPdf = new ArrayList<>();
+        setPdf(interNationalPdf, "rich_dad_poor_dad_Book by Robert Kiyosaki and Sharon Lechter", "Robert Kiyosaki and Sharon Lechter", "the_time_machine.pdf", R.drawable.rich_dad_poor_dad);
+        setPdf(interNationalPdf, "the_time_machine By H. G. Wells", "H. G. Wells", "the_time_machine.pdf", R.drawable.the_time_machine);
+        setPdf(interNationalPdf, "the_oldest_word_by_Johnny_Firic", "Johnny Firic", "the_time_machine.pdf", R.drawable.the_oldest_word);
+        setPdf(interNationalPdf, "1001_motivational_quotes_for_success_by_Thomas J. Vilord", "Thomas J. Vilord", "the_time_machine.pdf", R.drawable.one_thausen_one_motivational_quotes_for_success);
+        setPdf(interNationalPdf, "20000_leagues_under_the_sea_by_Jules Verne", "Jules Verne", "the_time_machine.pdf", R.drawable.twinty_thusen_leagues_under_the_sea);
+        setPdf(interNationalPdf, "a_christmas_carol_by_charles_dickens_by_Charles Dickens", "Charles Dickens", "the_time_machine.pdf", R.drawable.a_christmas_carol_by_charles_dickens);
+        setPdf(interNationalPdf, "a_connecticut_yankee_in_king_arthurs_court_by_mark_twain", "mark_twain", "the_time_machine.pdf", R.drawable.a_connecticut_yankee_in_king_arthurs_court_by_mark_twain);
+        setPdf(interNationalPdf, "a_tale_of_three_lions_by_henry_rider_haggard", "henry_rider_haggard", "the_time_machine.pdf", R.drawable.a_tale_of_three_lions_by_henry_rider_haggard);
 
     }
 
