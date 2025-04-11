@@ -45,7 +45,6 @@ public class PdfViewer extends AppCompatActivity {
         pdfView.fromAsset(PdfFileName)
                 .pageSnap(true)
                 .swipeHorizontal(true)
-                .fitEachPage(true)
                 .onPageChange((page, pageCount) -> {
                     currentPage = page;
                     updateProgressBar();

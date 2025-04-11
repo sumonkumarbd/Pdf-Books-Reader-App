@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +20,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.sumonkmr.coustompdfreaderapps.adapters.FourthLayAdapter;
 import com.sumonkmr.coustompdfreaderapps.adapters.MainLayAdapter;
 import com.sumonkmr.coustompdfreaderapps.adapters.SecoundLayAdapter;
 import com.sumonkmr.coustompdfreaderapps.adapters.ThirdLayAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,16 +39,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String PdfFileName;
+    public int maxScroll;
     HashMap<String, String> pdfTemp;
     List<HashMap<String, String>> popularPdf, newPdf, bangladeshiPdf, interNationalPdf;
     ImageView dashboard_logo;
     ScrollView parentScrollView;
+    TextView trendingTag;
     private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1, recyclerViewForCat2;
     private int currentPosition = 0;
-    public static String PdfFileName;
-    TextView trendingTag;
     private ProgressBar progressBarTrending, progressBarNew, progressBarDesi, progressBarInt, canvasBar;
-    public int maxScroll;
     private boolean isProgressBarVisible = false;
 
     @Override
@@ -51,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 //       ***Call Functions Here****
         HookUps();//For HookUps xml with java
         PDFs();//All Pdf List
+        dataBase();
         RecyclerDefiner();//Settings of RecyclerView
         BackPress(); //OnBackPress.
 
@@ -81,10 +90,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewForCat2.setHasFixedSize(true);
 
         // specify the view adapter
-        RecyclerView.Adapter trending_sec_adapter = new MainLayAdapter(this, popularPdf);
-        RecyclerView.Adapter new_sec_adapter = new SecoundLayAdapter(this, newPdf);
-        RecyclerView.Adapter cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdf);
-        RecyclerView.Adapter cat2_sec_adapter = new FourthLayAdapter(this, interNationalPdf);
+        RecyclerView.Adapter<MainLayAdapter.ViewHolder> trending_sec_adapter = new MainLayAdapter(this, popularPdf);
+        RecyclerView.Adapter<SecoundLayAdapter.ViewHolder> new_sec_adapter = new SecoundLayAdapter(this, newPdf);
+        RecyclerView.Adapter<ThirdLayAdapter.ViewHolder> cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdf);
+        RecyclerView.Adapter<FourthLayAdapter.ViewHolder> cat2_sec_adapter = new FourthLayAdapter(this, interNationalPdf);
 
         recyclerViewForTrendingSec.setAdapter(trending_sec_adapter);
         recyclerViewForNewSec.setAdapter(new_sec_adapter);
@@ -245,6 +254,46 @@ public class MainActivity extends AppCompatActivity {
         return pdfLibrary;
     }
 
+
+    public void dataBase() {
+        String url = "https://flask-book-api-the-reader.onrender.com//pdfs";
+
+        RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                response -> {
+                    for (int i = 0; i < response.length(); i++) {
+                        try {
+                            JSONObject book = response.getJSONObject(i);
+
+                            String id = book.getString("id");
+                            String bookName = book.getString("title");
+                            String authorName = book.getString("author");
+                            String pdfUrl = book.getString("file_name");
+                            String coverUrl = book.getString("thumbnail");
+                            String category = book.getString("category");
+
+                            Log.d("BOOK", id + " | " + bookName + " | " + pdfUrl + " | " + authorName + " | " + coverUrl + " | " + category);
+                        } catch (JSONException e) {
+                            Log.e("JSON_ERROR", "Parsing error at index " + i + ": " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                error -> {
+                    Log.e("VolleyError", "Error: " + error.toString());
+                    if (error.networkResponse != null) {
+                        Log.e("VolleyError", "Status Code: " + error.networkResponse.statusCode);
+                    }
+                    Toast.makeText(MainActivity.this, "Failed to load books", Toast.LENGTH_SHORT).show();
+                }
+
+        );
+
+        queue.add(request);
+    }
+
+
     public void PDFs() {
 //      ==========================================
 //      Trending Pdf List
@@ -287,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //      ==========================================
-//      Bangladeshi Pdf List
+//      InterNational Pdf List
 //      ==========================================
         interNationalPdf = new ArrayList<>();
         setPdf(interNationalPdf, "rich_dad_poor_dad_Book by Robert Kiyosaki and Sharon Lechter", "Robert Kiyosaki and Sharon Lechter", "rich_dad_poor_dad.pdf", R.drawable.rich_dad_poor_dad);
@@ -300,6 +349,7 @@ public class MainActivity extends AppCompatActivity {
         setPdf(interNationalPdf, "a_tale_of_three_lions_by_henry_rider_haggard", "henry_rider_haggard", "a_tale_of_three_lions_by_henry_rider_haggard.pdf", R.drawable.a_tale_of_three_lions_by_henry_rider_haggard);
 
     }
+
 
     private void BackPress() {
         // Set up a callback to handle the back button press
