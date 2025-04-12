@@ -14,7 +14,7 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:id="@+id/cover"
+            android:id="@+id/cover_lg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_10dp"
@@ -24,7 +24,7 @@
             android:background="@drawable/titlecard_for_redius"
             android:scaleType="centerCrop"
             android:elevation="@dimen/_10dp"
-            android:src="@drawable/kalyani_jibananda_das" />
+            android:src="@drawable/bg" />
 
         <ImageView
             android:id="@+id/newTag"

@@ -87,7 +87,7 @@ public class MainLayAdapter extends RecyclerView.Adapter<MainLayAdapter.ViewHold
             super(view);
             titleName = view.findViewById(R.id.titleName);
             authorName = view.findViewById(R.id.authorName);
-            pdfCover = view.findViewById(R.id.cover);
+            pdfCover = view.findViewById(R.id.cover_lg);
             newTag = view.findViewById(R.id.newTag);
         }
     }
