@@ -1,27 +1,36 @@
 package com.sumonkmr.coustompdfreaderapps;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.navigation.NavigationView;
 import com.sumonkmr.coustompdfreaderapps.adapters.BangladeshiCatAdapter;
 import com.sumonkmr.coustompdfreaderapps.adapters.InternationalCat;
 import com.sumonkmr.coustompdfreaderapps.adapters.NewCategoryAdapter;
@@ -41,7 +50,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     public static String PdfFileName;
     public int maxScroll;
@@ -55,26 +64,54 @@ public class MainActivity extends AppCompatActivity {
     private boolean isAutoScrollRunning = false;
     private ProgressBar progressBarTrending, progressBarNew, progressBarDesi, progressBarInt, canvasBar;
     private boolean isProgressBarVisible = false;
-
+    DrawerLayout drawer;
+    private Handler autoScrollHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//       ***Call Functions Here****
-        HookUps();//For HookUps xml with java
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+
+        // Set up ActionBarDrawerToggle
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Select Home by default if this is the first time loading
+        if (savedInstanceState == null) {
+            navigationView.setCheckedItem(R.id.nav_home);
+        }
+
+        // Call Functions Here
+        HookUps(); // For HookUps xml with java
         dataBase();
         // Manual Progressbar for recyclerView
         ManualProgressBars(recViewPopular, progressBarTrending);
         ManualProgressBars(recyclerViewForCat1, progressBarDesi);
         ManualProgressBars(recyclerViewForCat2, progressBarInt);
         ScrollViewCustomize();
-        BackPress(); //OnBackPress.
+        setupBackPress(); // OnBackPress
+    }
 
-    }//onCreate Finished.
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Clean up all handlers to prevent memory leaks
+        if (autoScrollHandler != null) {
+            autoScrollHandler.removeCallbacksAndMessages(null);
+        }
+    }
 
-    //    (((Custom Functions)))
+    // Custom Functions
     private void HookUps() {
         parentScrollView = findViewById(R.id.parentScrollView);
         canvasBar = findViewById(R.id.canvasBar);
@@ -90,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
         progressBarInt = findViewById(R.id.progressBarInt);
     }
 
-
     private void AutoProgressBar(RecyclerView recyclerView, ProgressBar progressBar) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -100,10 +136,15 @@ public class MainActivity extends AppCompatActivity {
                 int scrolled = recyclerView.computeHorizontalScrollOffset();
                 int scrollRange = recyclerView.computeHorizontalScrollRange() - recyclerView.computeHorizontalScrollExtent();
 
-                int progress = scrollRange == 0 ? 0 : (int) (100f * scrolled / scrollRange);
+                // Prevent division by zero
+                if (scrollRange <= 0) {
+                    progressBar.setProgress(0);
+                    return;
+                }
 
+                int progress = (int) (100f * scrolled / scrollRange);
                 progressBar.setProgress(progress);
-                SetProgressFullColor(progressBar, progress); // Your custom method
+                SetProgressFullColor(progressBar, progress);
             }
         });
     }
@@ -112,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
 
-        final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -122,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     currentPosition++;
                 }
                 recyclerView.smoothScrollToPosition(currentPosition);
-                handler.postDelayed(this, duration);
+                autoScrollHandler.postDelayed(this, duration);
             }
         };
 
@@ -133,10 +173,10 @@ public class MainActivity extends AppCompatActivity {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (!isAutoScrollRunning) {
                         isAutoScrollRunning = true;
-                        handler.postDelayed(runnable, duration);
+                        autoScrollHandler.postDelayed(runnable, duration);
                     }
                 } else {
-                    handler.removeCallbacks(runnable);
+                    autoScrollHandler.removeCallbacks(runnable);
                     isAutoScrollRunning = false;
                 }
             }
@@ -145,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         // Start scrolling
         if (!isAutoScrollRunning) {
             isAutoScrollRunning = true;
-            handler.postDelayed(runnable, duration);
+            autoScrollHandler.postDelayed(runnable, duration);
         }
 
         AutoProgressBar(recyclerView, progressBar);
@@ -156,21 +196,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 // Calculate the scroll progress
                 int scrolled = recyclerView.computeHorizontalScrollOffset();
                 int scrollRange = recyclerView.computeHorizontalScrollRange() - recyclerView.computeHorizontalScrollExtent();
+
+                // Prevent division by zero
+                if (scrollRange <= 0) {
+                    progressBar.setProgress(0);
+                    return;
+                }
+
                 int progress = (int) (100 * (float) scrolled / scrollRange);
+
                 // Calculate the maximum scroll range
                 maxScroll = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent();
+
                 if (!isProgressBarVisible && progress > 0) {
                     progressBar.setVisibility(View.VISIBLE);
                     isProgressBarVisible = true;
                 } else if (isProgressBarVisible && progress == 0) {
                     return;
                 }
+
                 progressBar.setProgress(progress);
                 SetProgressFullColor(progressBar, progress);
-
             }
         });
     }
@@ -191,6 +241,9 @@ public class MainActivity extends AppCompatActivity {
         parentScrollView.computeScroll();
         parentScrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             int maxScrollAmount = parentScrollView.getChildAt(0).getHeight() - parentScrollView.getHeight();
+            if (maxScrollAmount <= 0) {
+                return; // Prevent division by zero or negative values
+            }
             canvasBar.setMax(maxScrollAmount);
             canvasBar.setProgress(scrollY);
 
@@ -231,7 +284,6 @@ public class MainActivity extends AppCompatActivity {
         ));
         return pdfLibrary;
     }
-
 
     public void dataBase() {
         String url = "https://flask-book-api-the-reader.onrender.com/api/pdfs";
@@ -309,33 +361,28 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         // Set up RecyclerView for popular books
-                        RecyclerView recyclerViewPopular = findViewById(R.id.recyclerView);
-                        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                        recyclerViewPopular.setHasFixedSize(true);
+                        recViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        recViewPopular.setHasFixedSize(true);
                         PopularCatAdapter popularCatAdapter = new PopularCatAdapter(MainActivity.this, popularBooks);
-                        recyclerViewPopular.setAdapter(popularCatAdapter);
+                        recViewPopular.setAdapter(popularCatAdapter);
 
                         // Set up RecyclerView for new books
-                        RecyclerView recyclerViewNew = findViewById(R.id.recyclerView2);
-                        recyclerViewNew.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                        recyclerViewNew.setHasFixedSize(true);
+                        recyclerViewForNewSec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        recyclerViewForNewSec.setHasFixedSize(true);
                         NewCategoryAdapter newCategoryAdapter = new NewCategoryAdapter(MainActivity.this, newBooks);
-                        recyclerViewNew.setAdapter(newCategoryAdapter);
+                        recyclerViewForNewSec.setAdapter(newCategoryAdapter);
                         // Start automatic sliding
-                        RecViewAutoScroll(recyclerViewNew,newCategoryAdapter , 3000, progressBarNew);
+                        RecViewAutoScroll(recyclerViewForNewSec, newCategoryAdapter, 3000, progressBarNew);
 
                         // Set up RecyclerView for Bangladeshi books
-                        RecyclerView recyclerViewBangladeshi = findViewById(R.id.recyclerView3);
-                        recyclerViewBangladeshi.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                        recyclerViewBangladeshi.setHasFixedSize(true);
-                        recyclerViewBangladeshi.setAdapter(new BangladeshiCatAdapter(MainActivity.this, bangladeshiBooks));
+                        recyclerViewForCat1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        recyclerViewForCat1.setHasFixedSize(true);
+                        recyclerViewForCat1.setAdapter(new BangladeshiCatAdapter(MainActivity.this, bangladeshiBooks));
 
                         // Set up RecyclerView for international books
-                        RecyclerView recyclerViewInternational = findViewById(R.id.recyclerView4);
-                        recyclerViewInternational.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                        recyclerViewInternational.setHasFixedSize(true);
-                        recyclerViewInternational.setAdapter(new InternationalCat(MainActivity.this, internationalBooks));
-
+                        recyclerViewForCat2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        recyclerViewForCat2.setHasFixedSize(true);
+                        recyclerViewForCat2.setAdapter(new InternationalCat(MainActivity.this, internationalBooks));
 
                     } catch (JSONException e) {
                         Log.e("PDF_ERROR", "JSON parsing error: " + e.getMessage());
@@ -350,40 +397,62 @@ public class MainActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(request);
     }
 
-    private void BackPress() {
-        // Set up a callback to handle the back button press
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here
+        int id = item.getItemId();
+
+        if (id == R.id.nav_home) {
+            // Handle the home action
+            // For example: loadHomeFragment();
+        } else if (id == R.id.nav_upload_pdf) {
+            // Launch PDF upload activity
+            startActivity(new Intent(MainActivity.this, UploadPdfActivity.class));
+        } else if (id == R.id.nav_my_documents) {
+            // Handle the my documents action
+            // For example: loadMyDocumentsFragment();
+        } else if (id == R.id.nav_settings) {
+            // Handle the settings action
+            // For example: startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        } else if (id == R.id.nav_about) {
+            // Handle the about action
+            // For example: showAboutDialog();
+        }
+
+        // Close the drawer
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void setupBackPress() {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Custom handling for the back button press
-                // You can show a dialog or perform any custom action here
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Exit")
-                        .setMessage("Are you sure you want to exit?")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Close the application
-                                finish();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Dismiss the dialog
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Exit")
+                            .setMessage("Are you sure you want to exit?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Close the application
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Dismiss the dialog
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
             }
-
-            // If you want to proceed with the default behavior (closing the activity), call the following:
-            // MyComponentActivity.super.onBackPressed();
         };
 
         // Add the callback to the OnBackPressedDispatcher
         getOnBackPressedDispatcher().addCallback(this, callback);
-
-        // ... rest of your activity initialization code
     }
-
-}//Main Class
+}
