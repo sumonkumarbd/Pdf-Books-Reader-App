@@ -24,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     private Handler autoScrollHandler = new Handler();
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +103,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ManualProgressBars(recyclerViewForCat2, progressBarInt);
         ScrollViewCustomize();
         setupBackPress(); // OnBackPress
+
+
+        // Configure SwipeRefreshLayout
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.yellow,
+                R.color.red,
+                R.color.deep_blue
+        );
+
+        // Set up refreshing listener
+        swipeRefreshLayout.setOnRefreshListener(this::dataBase);
     }
 
     @Override
@@ -114,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Custom Functions
     private void HookUps() {
         parentScrollView = findViewById(R.id.parentScrollView);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         canvasBar = findViewById(R.id.canvasBar);
         dashboard_logo = findViewById(R.id.dashboard_logo);
         recViewPopular = findViewById(R.id.recyclerView);
@@ -150,6 +165,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void RecViewAutoScroll(RecyclerView recyclerView, RecyclerView.Adapter adapter, int duration, ProgressBar progressBar) {
+        // 🚨 Fix: Remove any existing fling listener before attaching SnapHelper
+        if (recyclerView.getOnFlingListener() != null) {
+            recyclerView.setOnFlingListener(null);
+        }
+
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
 
@@ -386,10 +406,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                     } catch (JSONException e) {
                         Log.e("PDF_ERROR", "JSON parsing error: " + e.getMessage());
+                    }finally{
+                        swipeRefreshLayout.setRefreshing(false); // ✅ Stop refreshing in any case
                     }
                 },
                 error -> {
                     Log.e("PDF_ERROR", "Volley error: " + error.toString());
+                    swipeRefreshLayout.setRefreshing(false);
                 }
         );
 
