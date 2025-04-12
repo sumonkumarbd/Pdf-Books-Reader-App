@@ -1,6 +1,4 @@
-package com.sumonkmr.coustompdfreaderapps;
-
-import org.json.JSONObject;
+package com.sumonkmr.coustompdfreaderapps.models;
 
 public class PdfModel {
     private int id,downloadCount;

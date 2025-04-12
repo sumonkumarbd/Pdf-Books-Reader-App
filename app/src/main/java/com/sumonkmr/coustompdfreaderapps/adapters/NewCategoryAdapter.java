@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
-import com.sumonkmr.coustompdfreaderapps.PdfModel;
+import com.sumonkmr.coustompdfreaderapps.models.PdfModel;
 import com.sumonkmr.coustompdfreaderapps.PdfViewer;
 import com.sumonkmr.coustompdfreaderapps.R;
 
@@ -29,7 +29,7 @@ public class NewCategoryAdapter extends RecyclerView.Adapter<NewCategoryAdapter.
     @Override
     public NewCatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.pdf_card, parent, false);  // `item_pdf` is the layout you provided.
+                .inflate(R.layout.large_pdf_card, parent, false);  // `item_pdf` is the layout you provided.
         return new NewCatViewHolder(view);
     }
 
@@ -75,7 +75,7 @@ public class NewCategoryAdapter extends RecyclerView.Adapter<NewCategoryAdapter.
 
         public NewCatViewHolder(View itemView) {
             super(itemView);
-            cover = itemView.findViewById(R.id.cover);
+            cover = itemView.findViewById(R.id.cover_lg);
             newTag = itemView.findViewById(R.id.newTag);
             title = itemView.findViewById(R.id.titleName);
             author = itemView.findViewById(R.id.authorName);

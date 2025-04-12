@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
-import com.sumonkmr.coustompdfreaderapps.PdfModel;
+import com.sumonkmr.coustompdfreaderapps.models.PdfModel;
 import com.sumonkmr.coustompdfreaderapps.PdfViewer;
 import com.sumonkmr.coustompdfreaderapps.R;
 

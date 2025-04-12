@@ -55,6 +55,46 @@
                 android:layout_height="wrap_content">
 
                 <ProgressBar
+                    android:id="@+id/progressBarNew"
+                    style="@style/TitleProgressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_30dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    android:max="100"
+                    android:maxWidth="@dimen/_250dp"
+                    android:minWidth="@dimen/_150dp" />
+
+                <TextView
+                    android:id="@+id/newTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_5dp"
+                    android:fontFamily="sans-serif-black"
+                    android:maxWidth="@dimen/_250dp"
+                    android:minWidth="@dimen/_150dp"
+                    android:paddingVertical="@dimen/_5dp"
+                    android:paddingLeft="@dimen/_10dp"
+                    android:text="New Books"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_15sp" />
+
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_220dp"
+                android:layout_marginBottom="15dp"
+                android:padding="@dimen/_10dp"
+                android:scrollbars="none" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
                     android:id="@+id/progressBarTrending"
                     style="@style/TitleProgressBar"
                     android:layout_width="wrap_content"
@@ -86,49 +126,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_220dp"
+                android:layout_height="@dimen/_155dp"
                 android:layout_gravity="center"
                 android:layout_marginVertical="@dimen/_1dp"
-                android:scrollbars="none" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ProgressBar
-                    android:id="@+id/progressBarNew"
-                    style="@style/TitleProgressBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_30dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginVertical="@dimen/_5dp"
-                    android:max="100"
-                    android:maxWidth="@dimen/_250dp"
-                    android:minWidth="@dimen/_150dp" />
-
-                <TextView
-                    android:id="@+id/newTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/_5dp"
-                    android:fontFamily="sans-serif-black"
-                    android:maxWidth="@dimen/_250dp"
-                    android:minWidth="@dimen/_150dp"
-                    android:paddingVertical="@dimen/_5dp"
-                    android:paddingLeft="@dimen/_10dp"
-                    android:text="New Books"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/_15sp" />
-
-            </RelativeLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView2"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_155dp"
-                android:layout_marginBottom="15dp"
-                android:padding="@dimen/_10dp"
                 android:scrollbars="none" />
 
             <RelativeLayout

@@ -1,7 +1,6 @@
 package com.sumonkmr.coustompdfreaderapps;
 
 import android.content.DialogInterface;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -26,17 +24,22 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.sumonkmr.coustompdfreaderapps.adapters.BangladeshiCatAdapter;
 import com.sumonkmr.coustompdfreaderapps.adapters.InternationalCat;
-import com.sumonkmr.coustompdfreaderapps.adapters.MainLayAdapter;
 import com.sumonkmr.coustompdfreaderapps.adapters.NewCategoryAdapter;
-import com.sumonkmr.coustompdfreaderapps.adapters.PdfAdapter;
+import com.sumonkmr.coustompdfreaderapps.adapters.PopularCatAdapter;
+import com.sumonkmr.coustompdfreaderapps.models.PdfModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,10 +50,12 @@ public class MainActivity extends AppCompatActivity {
     ImageView dashboard_logo;
     ScrollView parentScrollView;
     TextView trendingTag;
-    private RecyclerView recyclerViewForTrendingSec, recyclerViewForNewSec, recyclerViewForCat1, recyclerViewForCat2;
+    private RecyclerView recViewPopular, recyclerViewForNewSec, recyclerViewForCat1, recyclerViewForCat2;
     private int currentPosition = 0;
+    private boolean isAutoScrollRunning = false;
     private ProgressBar progressBarTrending, progressBarNew, progressBarDesi, progressBarInt, canvasBar;
     private boolean isProgressBarVisible = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,11 @@ public class MainActivity extends AppCompatActivity {
 //       ***Call Functions Here****
         HookUps();//For HookUps xml with java
         dataBase();
-//        RecyclerDefiner();//Settings of RecyclerView
+        // Manual Progressbar for recyclerView
+        ManualProgressBars(recViewPopular, progressBarTrending);
+        ManualProgressBars(recyclerViewForCat1, progressBarDesi);
+        ManualProgressBars(recyclerViewForCat2, progressBarInt);
+        ScrollViewCustomize();
         BackPress(); //OnBackPress.
 
     }//onCreate Finished.
@@ -70,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         parentScrollView = findViewById(R.id.parentScrollView);
         canvasBar = findViewById(R.id.canvasBar);
         dashboard_logo = findViewById(R.id.dashboard_logo);
-        recyclerViewForTrendingSec = findViewById(R.id.recyclerView);
+        recViewPopular = findViewById(R.id.recyclerView);
         recyclerViewForNewSec = findViewById(R.id.recyclerView2);
         recyclerViewForCat1 = findViewById(R.id.recyclerView3);
         recyclerViewForCat2 = findViewById(R.id.recyclerView4);
@@ -81,65 +90,39 @@ public class MainActivity extends AppCompatActivity {
         progressBarInt = findViewById(R.id.progressBarInt);
     }
 
-    private void RecyclerDefiner(List<HashMap<String, String>> popularBooks) {
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        recyclerViewForTrendingSec.setHasFixedSize(true);
-//        recyclerViewForNewSec.setHasFixedSize(true);
-//        recyclerViewForCat1.setHasFixedSize(true);
-//        recyclerViewForCat2.setHasFixedSize(true);
 
-        // specify the view adapter
-        RecyclerView.Adapter<MainLayAdapter.ViewHolder> trending_sec_adapter = new MainLayAdapter(this, popularBooks);
-//        RecyclerView.Adapter<SecoundLayAdapter.ViewHolder> new_sec_adapter = new SecoundLayAdapter(this, newPdf);
-//        RecyclerView.Adapter<ThirdLayAdapter.ViewHolder> cat1_sec_adapter = new ThirdLayAdapter(this, bangladeshiPdf);
-//        RecyclerView.Adapter<FourthLayAdapter.ViewHolder> cat2_sec_adapter = new FourthLayAdapter(this, interNationalPdf);
+    private void AutoProgressBar(RecyclerView recyclerView, ProgressBar progressBar) {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
 
-//        recyclerViewForTrendingSec.setAdapter(trending_sec_adapter);
-//        recyclerViewForNewSec.setAdapter(new_sec_adapter);
-//        recyclerViewForCat1.setAdapter(cat1_sec_adapter);
-//        recyclerViewForCat2.setAdapter(cat2_sec_adapter);
+                int scrolled = recyclerView.computeHorizontalScrollOffset();
+                int scrollRange = recyclerView.computeHorizontalScrollRange() - recyclerView.computeHorizontalScrollExtent();
 
-        // specify the view layout manager
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerViewForTrendingSec.setLayoutManager(layoutManager);
-//        recyclerViewForNewSec.setLayoutManager(layoutManager2);
-//        recyclerViewForCat1.setLayoutManager(layoutManager3);
-//        recyclerViewForCat2.setLayoutManager(layoutManager4);
+                int progress = scrollRange == 0 ? 0 : (int) (100f * scrolled / scrollRange);
 
+                progressBar.setProgress(progress);
+                SetProgressFullColor(progressBar, progress); // Your custom method
+            }
+        });
+    }
 
-        // Start automatic sliding
-//        RecViewAutoScroll(recyclerViewForTrendingSec, trending_sec_adapter, 3000);
-
-        // Manual Progressbar for recyclerView
-//        ManualProgressBars(recyclerViewForNewSec, progressBarNew);
-//        ManualProgressBars(recyclerViewForCat1, progressBarDesi);
-//        ManualProgressBars(recyclerViewForCat2, progressBarInt);
-
-
-        ScrollViewCustomize();
-
-
-    }//RecyclerDefiner()
-
-    private void RecViewAutoScroll(RecyclerView recyclerView, RecyclerView.Adapter adapter, int duration) {
-
+    private void RecViewAutoScroll(RecyclerView recyclerView, RecyclerView.Adapter adapter, int duration, ProgressBar progressBar) {
         PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
+
         final Handler handler = new Handler();
         final Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (currentPosition == adapter.getItemCount() - 1) {
+                if (currentPosition >= adapter.getItemCount() - 1) {
                     currentPosition = 0;
                 } else {
                     currentPosition++;
                 }
                 recyclerView.smoothScrollToPosition(currentPosition);
-                handler.postDelayed(this, duration); // Adjust the delay as needed
+                handler.postDelayed(this, duration);
             }
         };
 
@@ -148,23 +131,25 @@ public class MainActivity extends AppCompatActivity {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    // If the RecyclerView is not scrolling, resume auto-scrolling
-                    handler.postDelayed(runnable, duration); // Adjust the delay as needed
+                    if (!isAutoScrollRunning) {
+                        isAutoScrollRunning = true;
+                        handler.postDelayed(runnable, duration);
+                    }
                 } else {
-                    // If the RecyclerView is scrolling, remove callbacks to stop auto-scrolling
                     handler.removeCallbacks(runnable);
+                    isAutoScrollRunning = false;
                 }
             }
         });
 
-        // Start the initial auto-scrolling task
-        handler.postDelayed(runnable, duration); // Adjust the delay as needed
+        // Start scrolling
+        if (!isAutoScrollRunning) {
+            isAutoScrollRunning = true;
+            handler.postDelayed(runnable, duration);
+        }
 
-//        AutoProgressBar Call
-        AutoProgressBar(recyclerView, progressBarTrending);
-
-
-    }//autoScroll
+        AutoProgressBar(recyclerView, progressBar);
+    }
 
     private void ManualProgressBars(RecyclerView recyclerView, ProgressBar progressBar) {
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -188,27 +173,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void AutoProgressBar(RecyclerView recyclerView, ProgressBar progressBar) {
-        // Calculate the maximum scroll range
-        maxScroll = recyclerView.computeVerticalScrollRange() - recyclerView.computeVerticalScrollExtent();
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                // Calculate the scroll progress
-                int scrolled = recyclerView.computeHorizontalScrollOffset();
-                int scrollRange = recyclerView.computeHorizontalScrollRange() - recyclerView.computeHorizontalScrollExtent();
-                int progress = (int) (100 * (float) scrolled / scrollRange);
-
-                // Update the ProgressBar
-                progressBar.setProgress(progress);
-                SetProgressFullColor(progressBar, progress);
-            }
-
-        });
-
     }
 
     private void SetProgressFullColor(ProgressBar progressBar, int progress) {
@@ -269,7 +233,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void dataBase() {
         String url = "https://flask-book-api-the-reader.onrender.com/api/pdfs";
 
@@ -278,8 +241,14 @@ public class MainActivity extends AppCompatActivity {
                 response -> {
                     try {
                         JSONArray pdfsArray = response.getJSONArray("pdfs");
-                        List<PdfModel> pdfLibrary = new ArrayList<>();
 
+                        // Create separate lists for different categories
+                        List<PdfModel> popularBooks = new ArrayList<>();
+                        List<PdfModel> newBooks = new ArrayList<>();
+                        List<PdfModel> bangladeshiBooks = new ArrayList<>();
+                        List<PdfModel> internationalBooks = new ArrayList<>();
+
+                        // Process all PDFs and categorize them
                         for (int i = 0; i < pdfsArray.length(); i++) {
                             JSONObject pdfObject = pdfsArray.getJSONObject(i);
 
@@ -294,15 +263,79 @@ public class MainActivity extends AppCompatActivity {
                                     pdfObject.getString("thumbnail"),
                                     pdfObject.getString("upload_date")
                             );
-                            pdfLibrary.add(pdf);
-                            RecyclerView recyclerView = findViewById(R.id.recyclerView);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-                            recyclerView.setHasFixedSize(true);
-                            recyclerView.setAdapter(new PdfAdapter(MainActivity.this, pdfLibrary));
-                        }//for loop
 
+                            // Categorize based on your criteria
+                            String category = pdf.getCategory().toLowerCase();
 
-                        Log.d("pdfLibrary", "dataBase: "+ pdfLibrary.size());
+                            // Add to popular books if download count is high (adjust threshold as needed)
+                            if (pdf.getDownloadCount() > 20) {
+                                popularBooks.add(pdf);
+                            }
+
+                            // Add to new books based on upload date (last 30 days)
+                            try {
+                                // Parse the upload date string (assuming format like "YYYY-MM-DD" or similar)
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                                Date uploadDate = dateFormat.parse(pdf.getUploadDate());
+
+                                // Get current date
+                                Date currentDate = new Date();
+
+                                // Calculate difference in milliseconds
+                                long diffInMillis = currentDate.getTime() - uploadDate.getTime();
+
+                                // Convert to days
+                                long diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMillis);
+
+                                // If book was uploaded within the last 30 days, add to new books
+                                if (diffInDays <= 30) {
+                                    newBooks.add(pdf);
+                                }
+                            } catch (ParseException e) {
+                                Log.e("DATE_ERROR", "Date parsing error: " + e.getMessage());
+                                // If there's an error parsing the date, we can still add the book
+                                // to make sure we don't miss content due to formatting issues
+                                newBooks.add(pdf);
+                            }
+
+                            // Categorize by region
+                            if (category.contains("bangladesh") ||
+                                    category.contains("bengali") ||
+                                    category.contains("bangla")) {
+                                bangladeshiBooks.add(pdf);
+                            } else {
+                                internationalBooks.add(pdf);
+                            }
+                        }
+
+                        // Set up RecyclerView for popular books
+                        RecyclerView recyclerViewPopular = findViewById(R.id.recyclerView);
+                        recyclerViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        recyclerViewPopular.setHasFixedSize(true);
+                        PopularCatAdapter popularCatAdapter = new PopularCatAdapter(MainActivity.this, popularBooks);
+                        recyclerViewPopular.setAdapter(popularCatAdapter);
+
+                        // Set up RecyclerView for new books
+                        RecyclerView recyclerViewNew = findViewById(R.id.recyclerView2);
+                        recyclerViewNew.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        recyclerViewNew.setHasFixedSize(true);
+                        NewCategoryAdapter newCategoryAdapter = new NewCategoryAdapter(MainActivity.this, newBooks);
+                        recyclerViewNew.setAdapter(newCategoryAdapter);
+                        // Start automatic sliding
+                        RecViewAutoScroll(recyclerViewNew,newCategoryAdapter , 3000, progressBarNew);
+
+                        // Set up RecyclerView for Bangladeshi books
+                        RecyclerView recyclerViewBangladeshi = findViewById(R.id.recyclerView3);
+                        recyclerViewBangladeshi.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        recyclerViewBangladeshi.setHasFixedSize(true);
+                        recyclerViewBangladeshi.setAdapter(new BangladeshiCatAdapter(MainActivity.this, bangladeshiBooks));
+
+                        // Set up RecyclerView for international books
+                        RecyclerView recyclerViewInternational = findViewById(R.id.recyclerView4);
+                        recyclerViewInternational.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                        recyclerViewInternational.setHasFixedSize(true);
+                        recyclerViewInternational.setAdapter(new InternationalCat(MainActivity.this, internationalBooks));
+
 
                     } catch (JSONException e) {
                         Log.e("PDF_ERROR", "JSON parsing error: " + e.getMessage());

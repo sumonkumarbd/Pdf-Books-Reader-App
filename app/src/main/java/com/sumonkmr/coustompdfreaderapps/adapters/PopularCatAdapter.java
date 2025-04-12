@@ -11,18 +11,18 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
-import com.sumonkmr.coustompdfreaderapps.PdfModel;
+import com.sumonkmr.coustompdfreaderapps.models.PdfModel;
 import com.sumonkmr.coustompdfreaderapps.PdfViewer;
 import com.sumonkmr.coustompdfreaderapps.R;
 
 import java.util.List;
 
-public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.PdfViewHolder> {
+public class PopularCatAdapter extends RecyclerView.Adapter<PopularCatAdapter.PdfViewHolder> {
 
     Context context;
     private List<PdfModel> pdfList;
 
-    public PdfAdapter(Context context,List<PdfModel> pdfList) {
+    public PopularCatAdapter(Context context, List<PdfModel> pdfList) {
         this.pdfList = pdfList;
         this.context = context;
     }
@@ -30,7 +30,7 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.PdfViewHolder> {
     @Override
     public PdfViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.large_pdf_card, parent, false);  // `item_pdf` is the layout you provided.
+                .inflate(R.layout.pdf_card, parent, false);  // `item_pdf` is the layout you provided.
         return new PdfViewHolder(view);
     }
 
@@ -76,7 +76,7 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.PdfViewHolder> {
 
         public PdfViewHolder(View itemView) {
             super(itemView);
-            cover = itemView.findViewById(R.id.cover_lg);
+            cover = itemView.findViewById(R.id.cover);
             newTag = itemView.findViewById(R.id.newTag);
             title = itemView.findViewById(R.id.titleName);
             author = itemView.findViewById(R.id.authorName);
