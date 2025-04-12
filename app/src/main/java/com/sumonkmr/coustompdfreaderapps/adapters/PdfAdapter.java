@@ -2,7 +2,6 @@ package com.sumonkmr.coustompdfreaderapps.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
-import com.sumonkmr.coustompdfreaderapps.MainActivity;
+import com.squareup.picasso.Picasso;
 import com.sumonkmr.coustompdfreaderapps.PdfModel;
 import com.sumonkmr.coustompdfreaderapps.PdfViewer;
 import com.sumonkmr.coustompdfreaderapps.R;
@@ -45,8 +42,10 @@ public class PdfAdapter extends RecyclerView.Adapter<PdfAdapter.PdfViewHolder> {
 
         // Here you would load the image into the ImageView (e.g., using Glide or Picasso)
         String thumbnailUrl = "https://flask-book-api-the-reader.onrender.com/api/thumbnail/"+pdf.getId();
-        Glide.with(holder.cover.getContext())
-                .load(thumbnailUrl)  // Load image from URL
+        Picasso.get()
+                .load(thumbnailUrl)
+                .placeholder(R.drawable.intro_cover_two)
+                .error(R.drawable.intro_cover)
                 .into(holder.cover);
 
         String pdfFile = "https://flask-book-api-the-reader.onrender.com/api/download/"+pdf.getId();

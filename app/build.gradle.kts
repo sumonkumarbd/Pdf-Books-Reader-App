@@ -41,8 +41,7 @@ dependencies {
     implementation("com.github.fornewid:neumorphism:0.3.2")
     implementation("com.github.barteksc:AndroidPdfViewer:3.1.0-beta.1")
     implementation ("com.airbnb.android:lottie:6.1.0")
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+    implementation ("com.squareup.picasso:picasso:2.8")
 
 
 }
