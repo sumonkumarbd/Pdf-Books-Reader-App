@@ -39,7 +39,7 @@ This app supports versatile file formats, offers personalised themes, bookmarks,
 - Build and run the app in Android Studio. Ensure you have an emulator or a physical device connected.
 
 ## 📱APK Download
-- [Download the APK](#) to try it out (link coming soon).
+- [Download the APK](https://github.com/sumonkumarbd/Pdf-Books-Reader-App/raw/refs/heads/master/the_reader.apk) to try it out (link coming soon).
 
 ## Backend
 - All Backend Information is [here.](https://github.com/sumonkumarbd/flask-book-api-the-reader)
