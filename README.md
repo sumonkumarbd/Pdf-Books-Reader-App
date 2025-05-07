@@ -42,7 +42,7 @@ This app supports versatile file formats, offers personalised themes, bookmarks,
 - [Download the APK](#) to try it out (link coming soon).
 
 ## Backend
-- [All Backend Information is here.](https://github.com/sumonkumarbd/flask-book-api-the-reader)
+- All Backend Information is [here.](https://github.com/sumonkumarbd/flask-book-api-the-reader)
 
 ## Future Improvements
 - **Cloud Sync**: Add support for syncing bookmarks and files across devices.
