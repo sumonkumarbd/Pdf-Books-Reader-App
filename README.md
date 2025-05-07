@@ -1,15 +1,15 @@
 # The Reader Ebook App
-![Feature Image](https://github.com/sumonkurbarbd/Pdf-Books-Reader-App/blob/master/media/TheReaderFeature.png)
+![Feature Image](https://raw.githubusercontent.com/sumonkumarbd/Pdf-Books-Reader-App/refs/heads/master/app/src/main/res/drawable/dashboad_temp.png)
 
 ## Overview
 The **The Reader Ebook App** is built to deliver a seamless reading experience on Android, letting users enjoy PDF and DOCX files with a modern, customizable twist. As the developer, I wanted to create a clean, engaging platform that makes reading accessible and fun for everyone, whether it’s a novel or a study guide.
 
-This app supports versatile file formats, offers personalized themes, bookmarks, text search, and smooth navigation, ensuring users stay connected to their content effortlessly.
+This app supports versatile file formats, offers personalised themes, bookmarks, text search, and smooth navigation, ensuring users stay connected to their content effortlessly.
 
 ## Features
 - **File Support**: Reads PDF and DOCX files, allowing users to access a wide range of documents and ebooks.
 - **Customizable Themes**: Users can switch between light, dark, or custom themes to match their reading preferences.
-- **Bookmarks**: Save favorite pages for quick access, making it easy to pick up where you left off.
+- **Bookmarks**: Save favourite pages for quick access, making it easy to pick up where you left off.
 - **Text Search**: Quickly find specific words or phrases within documents for efficient studying or reference.
 - **Smooth Navigation**: Intuitive controls for zooming, scrolling, and page-flipping enhance the reading flow.
 
@@ -40,6 +40,9 @@ This app supports versatile file formats, offers personalized themes, bookmarks,
 
 ## 📱APK Download
 - [Download the APK](#) to try it out (link coming soon).
+
+## Backend
+- All Backend Information is [here.](https://github.com/sumonkumarbd/flask-book-api-the-reader)
 
 ## Future Improvements
 - **Cloud Sync**: Add support for syncing bookmarks and files across devices.
