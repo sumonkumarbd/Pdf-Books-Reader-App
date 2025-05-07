@@ -1,5 +1,5 @@
 # The Reader Ebook App
-![Feature Image](https://github.com/sumonkurbarbd/Pdf-Books-Reader-App/blob/master/media/TheReaderFeature.png)
+![Feature Image](https://raw.githubusercontent.com/sumonkumarbd/Pdf-Books-Reader-App/refs/heads/master/app/src/main/res/drawable/dashboad_temp.png)
 
 ## Overview
 The **The Reader Ebook App** is built to deliver a seamless reading experience on Android, letting users enjoy PDF and DOCX files with a modern, customizable twist. As the developer, I wanted to create a clean, engaging platform that makes reading accessible and fun for everyone, whether it’s a novel or a study guide.
