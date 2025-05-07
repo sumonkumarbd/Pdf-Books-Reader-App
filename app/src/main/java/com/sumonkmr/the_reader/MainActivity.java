@@ -1,4 +1,4 @@
-package com.sumonkmr.coustompdfreaderapps;
+package com.sumonkmr.the_reader;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.OnBackPressedCallback;
@@ -26,17 +28,18 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
+import com.android.volley.TimeoutError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
-import com.sumonkmr.coustompdfreaderapps.adapters.BangladeshiCatAdapter;
-import com.sumonkmr.coustompdfreaderapps.adapters.InternationalCat;
-import com.sumonkmr.coustompdfreaderapps.adapters.NewCategoryAdapter;
-import com.sumonkmr.coustompdfreaderapps.adapters.PopularCatAdapter;
-import com.sumonkmr.coustompdfreaderapps.models.PdfModel;
+import com.sumonkmr.the_reader.adapters.BangladeshiCatAdapter;
+import com.sumonkmr.the_reader.adapters.InternationalCat;
+import com.sumonkmr.the_reader.adapters.NewCategoryAdapter;
+import com.sumonkmr.the_reader.adapters.PopularCatAdapter;
+import com.sumonkmr.the_reader.models.PdfModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -411,11 +414,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 },
                 error -> {
-                    Log.e("PDF_ERROR", "Volley error: " + error.toString());
-                    swipeRefreshLayout.setRefreshing(false);
+                    if (error instanceof TimeoutError) {
+                        Toast.makeText(MainActivity.this, "Server is taking too long to respond. Please try again.", Toast.LENGTH_LONG).show();
+                    } else if (error instanceof NoConnectionError) {
+                        Toast.makeText(MainActivity.this, "No internet connection.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Something went wrong.", Toast.LENGTH_LONG).show();
+                    }
                 }
         );
-
+        int timeoutMs = 10000; // 10 seconds
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMs,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         // Add request to Volley queue
         Volley.newRequestQueue(this).add(request);
     }

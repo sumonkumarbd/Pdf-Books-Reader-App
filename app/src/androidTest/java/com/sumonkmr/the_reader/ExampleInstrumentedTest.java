@@ -1,4 +1,4 @@
-package com.sumonkmr.coustompdfreaderapps;
+package com.sumonkmr.the_reader;
 
 import android.content.Context;
 

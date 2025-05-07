@@ -1,4 +1,4 @@
-package com.sumonkmr.coustompdfreaderapps;
+package com.sumonkmr.the_reader;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,8 +8,6 @@ import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-
-import com.airbnb.lottie.LottieAnimationView;
 
 public class SplashScreen extends AppCompatActivity {
     ImageView introLogo;

@@ -1,4 +1,4 @@
-package com.sumonkmr.coustompdfreaderapps;
+package com.sumonkmr.the_reader;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -16,12 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.loader.content.CursorLoader;
 
 import com.android.volley.DefaultRetryPolicy;

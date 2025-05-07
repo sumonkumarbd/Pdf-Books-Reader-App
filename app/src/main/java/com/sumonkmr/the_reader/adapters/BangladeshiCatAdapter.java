@@ -1,4 +1,4 @@
-package com.sumonkmr.coustompdfreaderapps.adapters;
+package com.sumonkmr.the_reader.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,31 +10,31 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
-import com.sumonkmr.coustompdfreaderapps.models.PdfModel;
-import com.sumonkmr.coustompdfreaderapps.PdfViewer;
-import com.sumonkmr.coustompdfreaderapps.R;
+import com.sumonkmr.the_reader.R;
+import com.sumonkmr.the_reader.models.PdfModel;
+import com.sumonkmr.the_reader.PdfViewer;
 
 import java.util.List;
 
-public class NewCategoryAdapter extends RecyclerView.Adapter<NewCategoryAdapter.NewCatViewHolder> {
+public class BangladeshiCatAdapter extends RecyclerView.Adapter<BangladeshiCatAdapter.DesiCatViewHolder> {
 
     Context context;
     private List<PdfModel> pdfList;
 
-    public NewCategoryAdapter(Context context,List<PdfModel> pdfList) {
+    public BangladeshiCatAdapter(Context context,List<PdfModel> pdfList) {
         this.pdfList = pdfList;
         this.context = context;
     }
 
     @Override
-    public NewCatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DesiCatViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.large_pdf_card, parent, false);  // `item_pdf` is the layout you provided.
-        return new NewCatViewHolder(view);
+                .inflate(R.layout.pdf_card, parent, false);  // `item_pdf` is the layout you provided.
+        return new DesiCatViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(NewCatViewHolder holder, int position) {
+    public void onBindViewHolder(DesiCatViewHolder holder, int position) {
         PdfModel pdf = pdfList.get(position);
         holder.title.setText(pdf.getTitle());
         holder.author.setText(pdf.getAuthor());
@@ -60,6 +60,7 @@ public class NewCategoryAdapter extends RecyclerView.Adapter<NewCategoryAdapter.
                 context.startActivity(intent);
             }
         });
+
     }
 
     @Override
@@ -67,18 +68,19 @@ public class NewCategoryAdapter extends RecyclerView.Adapter<NewCategoryAdapter.
         return pdfList.size();
     }
 
-    public static class NewCatViewHolder extends RecyclerView.ViewHolder {
+    public static class DesiCatViewHolder extends RecyclerView.ViewHolder {
         ImageView cover;
         ImageView newTag;
         TextView title;
         TextView author;
 
-        public NewCatViewHolder(View itemView) {
+        public DesiCatViewHolder(View itemView) {
             super(itemView);
-            cover = itemView.findViewById(R.id.cover_lg);
+            cover = itemView.findViewById(R.id.cover);
             newTag = itemView.findViewById(R.id.newTag);
             title = itemView.findViewById(R.id.titleName);
             author = itemView.findViewById(R.id.authorName);
         }
     }
+
 }

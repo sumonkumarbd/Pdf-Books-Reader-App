@@ -1,4 +1,4 @@
-package com.sumonkmr.coustompdfreaderapps.models;
+package com.sumonkmr.the_reader.models;
 
 public class PdfModel {
     private int id,downloadCount;

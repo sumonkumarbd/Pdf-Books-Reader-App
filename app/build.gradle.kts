@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.sumonkmr.coustompdfreaderapps"
+    namespace = "com.sumonkmr.the_reader"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.sumonkmr.coustompdfreaderapps"
+        applicationId = "com.sumonkmr.the_reader"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
