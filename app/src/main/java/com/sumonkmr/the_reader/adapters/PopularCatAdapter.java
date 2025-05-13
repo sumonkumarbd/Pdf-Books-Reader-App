@@ -1,7 +1,13 @@
 package com.sumonkmr.the_reader.adapters;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.pdf.PdfRenderer;
+import android.os.Build;
+import android.os.ParcelFileDescriptor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +15,27 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.sumonkmr.the_reader.R;
 import com.sumonkmr.the_reader.models.PdfModel;
 import com.sumonkmr.the_reader.PdfViewer;
 
+import java.io.File;
 import java.util.List;
 
 public class PopularCatAdapter extends RecyclerView.Adapter<PopularCatAdapter.PdfViewHolder> {
 
     Context context;
-    private List<PdfModel> pdfList;
+    private final List<PdfModel> pdfList;
 
     public PopularCatAdapter(Context context, List<PdfModel> pdfList) {
         this.pdfList = pdfList;
         this.context = context;
     }
 
+    @NonNull
     @Override
     public PdfViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -40,32 +49,35 @@ public class PopularCatAdapter extends RecyclerView.Adapter<PopularCatAdapter.Pd
         holder.title.setText(pdf.getTitle());
         holder.author.setText(pdf.getAuthor());
 
-        // Here you would load the image into the ImageView (e.g., using Glide or Picasso)
-        String thumbnailUrl = "https://flask-book-api-the-reader.onrender.com/api/thumbnail/"+pdf.getId();
-        Picasso.get()
-                .load(thumbnailUrl)
-                .placeholder(R.drawable.intro_cover_two)
-                .error(R.drawable.intro_cover)
-                .into(holder.cover);
 
-        String pdfFile = "https://flask-book-api-the-reader.onrender.com/api/download/"+pdf.getId();
+
         holder.cover.setOnClickListener(v -> {
-            String fileName = pdf.getFileName();
-            if (fileName.isEmpty()){
+            String pdfUrl = pdf.getPdfUrl();
+            if (pdfUrl.isEmpty()){
                 Toast.makeText(context, "Coming soon...", Toast.LENGTH_SHORT).show();
             }else {
                 Intent intent = new Intent(context, PdfViewer.class);
-                intent.putExtra("pdfFile", pdfFile);
-                intent.putExtra("fileName", pdf.getFileName());
+                intent.putExtra("pdfFile", pdfUrl);
+                intent.putExtra("fileName", pdf.getTitle());
                 intent.putExtra("position", position);
                 context.startActivity(intent);
             }
         });
+
+
+        Picasso.get()
+                .load(pdf.getCoverUrl())
+                .placeholder(R.drawable.intro_cover_two)
+                .error(R.drawable.intro_cover)
+                .into(holder.cover);
+
+
     }
 
     @Override
     public int getItemCount() {
         return pdfList.size();
+
     }
 
     public static class PdfViewHolder extends RecyclerView.ViewHolder {
@@ -82,5 +94,4 @@ public class PopularCatAdapter extends RecyclerView.Adapter<PopularCatAdapter.Pd
             author = itemView.findViewById(R.id.authorName);
         }
     }
-
 }

@@ -32,6 +32,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.TimeoutError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
@@ -48,6 +49,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,7 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Call Functions Here
         HookUps(); // For HookUps xml with java
-        dataBase();
+//        dataBase();
+          apiDjango();
         // Manual Progressbar for recyclerView
         ManualProgressBars(recViewPopular, progressBarTrending);
         ManualProgressBars(recyclerViewForCat1, progressBarDesi);
@@ -116,7 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
 
         // Set up refreshing listener
-        swipeRefreshLayout.setOnRefreshListener(this::dataBase);
+//        swipeRefreshLayout.setOnRefreshListener(this::dataBase);
+        swipeRefreshLayout.setOnRefreshListener(this::apiDjango);
     }
 
     @Override
@@ -278,6 +282,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+
+    /*
     private HashMap<String, String> getPdf(int id, String title, String author, String fileName, String thumbnail, String category, String description, int downloadCount, String uploadDate) {
         HashMap<String, String> pdfTemp = new HashMap<>();
         pdfTemp.put("id", String.valueOf(id));
@@ -307,6 +313,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ));
         return pdfLibrary;
     }
+
+
 
     public void dataBase() {
         String url = "https://flask-book-api-the-reader.onrender.com/api/pdfs";
@@ -431,6 +439,217 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Add request to Volley queue
         Volley.newRequestQueue(this).add(request);
     }
+
+
+    */
+
+
+
+//    #################################################################################
+private HashMap<String, String> getEBook(
+        int id,
+        String title,
+        String author,
+        String category,
+        String description,
+        String pdfFile,
+        String coverImage,
+        String publisher,
+        String language,
+        String publicationDate,
+        String uploadDate,
+        boolean featured
+) {
+    HashMap<String, String> eBook = new HashMap<>();
+    eBook.put("id", String.valueOf(id));
+    eBook.put("title", title);
+    eBook.put("author", author);
+    eBook.put("language", language);
+    eBook.put("category", category);
+    eBook.put("description", description);
+    eBook.put("pdf_file", pdfFile);
+    eBook.put("cover_image", coverImage);
+    eBook.put("upload_date", uploadDate);
+    eBook.put("publisher", publisher);
+    eBook.put("publication_date", publicationDate);
+    eBook.put("featured", String.valueOf(featured));
+    return eBook;
+}
+
+
+
+
+    private List<HashMap<String, String>> setEBook(
+            List<HashMap<String, String>> eBookLibrary,
+            int id,
+            String title,
+            String author,
+            String category,
+            String description,
+            String pdfFile,
+            String coverImage,
+            String publisher,
+            String language,
+            String publicationDate,
+            String uploadDate,
+            boolean featured
+    ) {
+        eBookLibrary.add(getEBook(
+                id,
+                title,
+                author,
+                category,
+                description,
+                pdfFile,
+                coverImage,
+                publisher,
+                language,
+                publicationDate,
+                uploadDate,
+                featured
+        ));
+        return eBookLibrary;
+    }
+
+    public void apiDjango() {
+    String url = "https://the-reader-ebook.vercel.app/api/books/";
+
+    JsonArrayRequest request = new JsonArrayRequest(
+            Request.Method.GET, url, null,
+            response -> {
+
+                try {
+                    // Separate lists for different categories
+                    List<PdfModel> popularBooks = new ArrayList<>();
+                    List<PdfModel> newBooks = new ArrayList<>();
+                    List<PdfModel> bangladeshiBooks = new ArrayList<>();
+                    List<PdfModel> internationalBooks = new ArrayList<>();
+
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject jsonObject = response.getJSONObject(i);
+
+                        PdfModel pdf = new PdfModel(
+                                jsonObject.getInt("id"),
+                                jsonObject.getString("title"),
+                                jsonObject.getString("slug"),
+                                jsonObject.getString("author"),
+                                jsonObject.getString("category"),
+                                jsonObject.getString("language"),
+                                jsonObject.getString("publisher"),
+                                jsonObject.getString("description"),
+                                jsonObject.getString("pdf_url"),
+                                jsonObject.getString("cover_url"),
+                                jsonObject.getString("upload_date"),
+                                jsonObject.getString("publication_date"),
+                                jsonObject.getBoolean("featured")
+                        );
+
+
+                        // Categorize popular (based on featured flag)
+                        if (pdf.isFeatured()) {
+                            popularBooks.add(pdf);
+                        }
+
+                        // Categorize new (uploaded in last 30 days)
+                        try {
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+                            dateFormat.setLenient(false);
+
+                            Date uploadDate = dateFormat.parse(pdf.getUploadDate());
+                            Date currentDate = new Date();
+                            assert uploadDate != null;
+
+                            // Normalize times to avoid time differences affecting results
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(uploadDate);
+                            cal.set(Calendar.HOUR_OF_DAY, 0);
+                            cal.set(Calendar.MINUTE, 0);
+                            cal.set(Calendar.SECOND, 0);
+                            cal.set(Calendar.MILLISECOND, 0);
+                            uploadDate = cal.getTime();
+
+                            cal.setTime(currentDate);
+                            cal.set(Calendar.HOUR_OF_DAY, 0);
+                            cal.set(Calendar.MINUTE, 0);
+                            cal.set(Calendar.SECOND, 0);
+                            cal.set(Calendar.MILLISECOND, 0);
+                            currentDate = cal.getTime();
+
+                            long diffInMillis = currentDate.getTime() - uploadDate.getTime();
+                            long diffInDays = TimeUnit.MILLISECONDS.toDays(diffInMillis);
+
+                            if (diffInDays <= 30) {
+                                newBooks.add(pdf);
+                            }
+                        } catch (ParseException e) {
+                            Log.e("DATE_ERROR", "Date parsing error: " + e.getMessage());
+                            newBooks.add(pdf); // Fail-safe
+                        }
+
+
+                        // Categorize region
+                        String category = pdf.getCategory().toLowerCase();
+                        if (category.contains("bangla") || category.contains("bangladesh")) {
+                            bangladeshiBooks.add(pdf);
+                        } else {
+                            internationalBooks.add(pdf);
+                        }
+                    }
+
+                    // Setup RecyclerView: Popular Books
+                    recViewPopular.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                    recViewPopular.setHasFixedSize(true);
+                    PopularCatAdapter popularCatAdapter = new PopularCatAdapter(MainActivity.this, popularBooks);
+                    recViewPopular.setAdapter(popularCatAdapter);
+
+                    // Setup RecyclerView: New Books
+                    recyclerViewForNewSec.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                    recyclerViewForNewSec.setHasFixedSize(true);
+                    NewCategoryAdapter newCategoryAdapter = new NewCategoryAdapter(MainActivity.this, newBooks);
+                    recyclerViewForNewSec.setAdapter(newCategoryAdapter);
+                    RecViewAutoScroll(recyclerViewForNewSec, newCategoryAdapter, 3000, progressBarNew);
+
+                    // Setup RecyclerView: Bangladeshi Books
+                    recyclerViewForCat1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                    recyclerViewForCat1.setHasFixedSize(true);
+                    recyclerViewForCat1.setAdapter(new BangladeshiCatAdapter(MainActivity.this, bangladeshiBooks));
+
+                    // Setup RecyclerView: International Books
+                    recyclerViewForCat2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+                    recyclerViewForCat2.setHasFixedSize(true);
+                    recyclerViewForCat2.setAdapter(new InternationalCat(MainActivity.this, internationalBooks));
+
+                } catch (JSONException e) {
+                    Log.e("PDF_ERROR", "JSON parsing error: " + e.getMessage());
+                } finally {
+                    swipeRefreshLayout.setRefreshing(false); // ✅ Stop refreshing
+                }
+            },
+            error -> {
+                swipeRefreshLayout.setRefreshing(false);
+                if (error instanceof TimeoutError) {
+                    Toast.makeText(MainActivity.this, "Server is taking too long to respond. Please try again.", Toast.LENGTH_LONG).show();
+                } else if (error instanceof NoConnectionError) {
+                    Toast.makeText(MainActivity.this, "No internet connection.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Something went wrong.", Toast.LENGTH_LONG).show();
+                    Log.d("apiDjango_error", "Error: " + error.getMessage());
+                }
+            }
+    );
+
+// Retry policy for handling slow network
+    int timeoutMs = 10000; // 10 seconds
+    request.setRetryPolicy(new DefaultRetryPolicy(
+            timeoutMs,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+// Add the request to the Volley queue
+    Volley.newRequestQueue(this).add(request);
+
+}
+//    #################################################################################
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

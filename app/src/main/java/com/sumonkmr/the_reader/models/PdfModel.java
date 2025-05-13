@@ -1,30 +1,40 @@
 package com.sumonkmr.the_reader.models;
 
 public class PdfModel {
-    private int id,downloadCount;
-    private String title;
-    private String author;
-    private String category;
-    private String description;
-    private String fileName;
-    private String thumbnail;
-    private String uploadDate;
+    int id;
+    String title;
+    String slug;
+    String author;
+    String category;
+    String language;
+    String publisher;
+    String description;
+    String pdfUrl;
+    String coverUrl;
+    String uploadDate;
+    String publicationDate;
+    boolean featured;
+
+
 
     // Constructor
-    public PdfModel(int id, String title, String author, String category, String description,
-                    int downloadCount, String fileName, String thumbnail, String uploadDate) {
+
+    public PdfModel(int id, String title, String slug, String author, String category, String language, String publisher, String description, String pdfUrl, String coverUrl, String uploadDate, String publicationDate, boolean featured) {
         this.id = id;
         this.title = title;
+        this.slug = slug;
         this.author = author;
         this.category = category;
+        this.language = language;
+        this.publisher = publisher;
         this.description = description;
-        this.downloadCount = downloadCount;
-        this.fileName = fileName;
-        this.thumbnail = thumbnail;
+        this.pdfUrl = pdfUrl;
+        this.coverUrl = coverUrl;
         this.uploadDate = uploadDate;
+        this.publicationDate = publicationDate;
+        this.featured = featured;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -39,6 +49,14 @@ public class PdfModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public String getAuthor() {
@@ -57,6 +75,22 @@ public class PdfModel {
         this.category = category;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -65,28 +99,20 @@ public class PdfModel {
         this.description = description;
     }
 
-    public int getDownloadCount() {
-        return downloadCount;
+    public String getPdfUrl() {
+        return pdfUrl;
     }
 
-    public void setDownloadCount(int downloadCount) {
-        this.downloadCount = downloadCount;
+    public void setPdfUrl(String pdfUrl) {
+        this.pdfUrl = pdfUrl;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getCoverUrl() {
+        return coverUrl;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
     }
 
     public String getUploadDate() {
@@ -96,4 +122,20 @@ public class PdfModel {
     public void setUploadDate(String uploadDate) {
         this.uploadDate = uploadDate;
     }
-}
+
+    public String getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(String publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
+    public boolean isFeatured() {
+        return featured;
+    }
+
+    public void setFeatured(boolean featured) {
+        this.featured = featured;
+    }
+}//Model Class End

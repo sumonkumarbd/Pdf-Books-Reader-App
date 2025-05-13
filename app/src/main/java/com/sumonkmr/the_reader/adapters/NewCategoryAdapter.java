@@ -39,27 +39,26 @@ public class NewCategoryAdapter extends RecyclerView.Adapter<NewCategoryAdapter.
         holder.title.setText(pdf.getTitle());
         holder.author.setText(pdf.getAuthor());
 
-        // Here you would load the image into the ImageView (e.g., using Glide or Picasso)
-        String thumbnailUrl = "https://flask-book-api-the-reader.onrender.com/api/thumbnail/"+pdf.getId();
-        Picasso.get()
-                .load(thumbnailUrl)
-                .placeholder(R.drawable.intro_cover_two)
-                .error(R.drawable.intro_cover)
-                .into(holder.cover);
-
-        String pdfFile = "https://flask-book-api-the-reader.onrender.com/api/download/"+pdf.getId();
         holder.cover.setOnClickListener(v -> {
-            String fileName = pdf.getFileName();
-            if (fileName.isEmpty()){
+            String pdfUrl = pdf.getPdfUrl();
+            if (pdfUrl.isEmpty()){
                 Toast.makeText(context, "Coming soon...", Toast.LENGTH_SHORT).show();
             }else {
                 Intent intent = new Intent(context, PdfViewer.class);
-                intent.putExtra("pdfFile", pdfFile);
-                intent.putExtra("fileName", pdf.getFileName());
+                intent.putExtra("pdfFile", pdfUrl);
+                intent.putExtra("fileName", pdf.getTitle());
                 intent.putExtra("position", position);
                 context.startActivity(intent);
             }
         });
+
+
+        Picasso.get()
+                .load(pdf.getCoverUrl())
+                .placeholder(R.drawable.intro_cover_two)
+                .error(R.drawable.intro_cover)
+                .into(holder.cover);
+
     }
 
     @Override
