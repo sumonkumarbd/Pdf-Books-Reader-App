@@ -42,7 +42,7 @@ This app supports versatile file formats, offers personalised themes, bookmarks,
 - [Download the APK](https://github.com/sumonkumarbd/Pdf-Books-Reader-App/raw/refs/heads/master/the_reader.apk) to try it out.
 
 ## Backend
-- All Backend Information is [here.](https://github.com/sumonkumarbd/flask-book-api-the-reader)
+- All Backend Information is [here.](https://github.com/sumonkumarbd/The-Reader-eBook-API-Django)
 
 ## Future Improvements
 - **Cloud Sync**: Add support for syncing bookmarks and files across devices.
