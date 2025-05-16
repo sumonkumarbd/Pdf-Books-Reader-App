@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
+    android:layout_height="@dimen/_100dp"
     android:background="@color/yellow"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -10,24 +10,18 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:contentDescription="App Logo"
         android:paddingTop="8dp"
-        android:src="@mipmap/ic_launcher_round" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:text="PDF Library"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="18sp" />
+        android:src="@drawable/logo_png" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your PDF collection" />
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="anywhere anytime" />
 
 </LinearLayout>
